@@ -126,7 +126,7 @@ const filterClass = new QuickFilter({
   ...
 });
 ```
-Defautls to null.
+Defaults to null.
 
 - `modifySelectedFunction`
 `function` Function that can be used to modify selected filters, passes argument of object of selected filters which has to be returned. Tip: use this function to create a list of all selected filters. Defaults to `null`.
