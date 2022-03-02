@@ -1,0 +1,192 @@
+<div class="mb-5">
+    <h3><small class="text-muted">new</small> QuickFilter<small class="text-muted">({options})</small></h3>
+    <div class="btn-group flex-wrap my-2" role="group" aria-label="QuickFilter download buttons">
+        <a href="/js/QuickFilter.js" download class="btn btn-outline-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg> QuickFilter.js</a>
+        <a href="/js/QuickFilter.min.js" download class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg> QuickFilter.min.js <small><span class="badge bg-info">1.8kB gzipped</span></small></a>
+    </div>
+    <p class="lead">The QuickFilter class makes it easy to filter items based on their HTML data attributes.</p>
+    <p>QuickFilter uses data attributes to filter elements. Define options to filter the content you want. The QuickFilter class filters in both an AND & OR relationship, checkboxes, radio buttons or multiple select options will be filtered using an OR relationship. Whereas a text input combined with a (e.g.) checkbox will filter items based on an AND relationship. Use the <a href="#demo" aria-label="demo example">demo</a> below to check it out.</p>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    HTML Items requirements
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p><strong>Every filterable item must have a <code>data-index</code> attribute defined with a unique value.</strong> Furthermore, every filterable key shoud have a data-attribute on the main item as well. For example, if you want to filter a collection of posts by author and title, your items should have a structure similar to this.</p>
+<div><code>
+&lt;div 
+    class="post-item" 
+    data-index="1" 
+    data-author="John Doe" 
+    data-title="Hello World Post"
+>
+    ...content...
+&lt;/div>
+</code></div>
+                    <p>If a post has multiple authors, or multiple filterable values, use commas to seperate the values.</p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    HTML Filters requirements
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p><strong>Every select and input element that you want to use for filtering must contain a <code>data-filter</code> attribute where the filterable key is defined.</strong> For example, if we want to filter the post items by title (text input), and by author (checkbox input) the filters should be similar to the following.</p>
+<div><code>
+&lt;input 
+    type="text"
+    data-filter="title"
+    placeholder="Search by title../"
+/>
+&lt;input 
+    type="checkbox"
+    data-filter="author"
+    value="John Doe"
+/>
+&lt;input 
+    type="checkbox"
+    data-filter="author"
+    value="Lisa Johnson"
+/>
+</code></div>                       
+                <p>QuickFilter supports the following types of filterable elements:
+                    <ul>
+                        <li><code>select</code></li>
+                        <li><code>select[multiple]</code></li>
+                        <li><code>input[type="text"]</code></li>
+                        <li><code>input[type="checkbox"]</code></li>
+                        <li><code>input[type="radio"]</code></li>
+                        <li><code>input[type="range"]</code></li>
+                        <li><code>input[type="range"][multiple]</code><small class="text-muted">See <a href="http://projects.verou.me/multirange/" rel="noopener" target="blank">multirange polyfill</a> to implement this.</small></li>
+                    </ul>
+                </p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Initialization and options
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p><strong>To initialize the QuickFilter class, create a class instance and pass in the options object.</strong> The options object provides options to select the filterable items, the filterable inputs and select elements, and other options to customize the functionality of the filter. An example of a easy initialization of the QuickFilter class to filter posts by author and search by title.
+                    </p>
+<div><code>
+new QuickFilter({
+    filterCheckboxInputs: ['author'],
+    filterTextInputs: ['title'],
+    elementSelector: '[data-index]'
+});
+</code></div>   
+                    <p>The default options object for the QuickFilter class is:</p>
+<div><code>
+{
+    elementSelector = '[data-index]',
+    filterCheckboxInputs = [],
+    filterSelectInputs = [],
+    filterTextInputs = [],
+    filterRangeInputs = [],
+    filterRadioInputs = [],
+    filterStartTextInputs = [],
+    resultNumberSelector = null,
+    noResultMessage = null,
+    showDisplayProperty = 'block',
+    hideDisplayProperty = 'none',
+    callBackFunction = null,
+    modifySelectedFunction = null,
+    itemsScope = null
+}
+</code></div>
+                    <p>For individual explanation of each option, please read the documentation carefully.</p>
+                    <details>
+                        <summary><code>elementSelector</code></summary>
+                        <p><code>string</code> String that will be used in a querySelectorAll to select the filterable items, defaults to '[data-index]', every element that contains a <code>data-index</code> attribute.</p>
+                    </details>
+                    <details>
+                        <summary><code>filterCheckboxInputs</code></summary>
+                        <p><code>array</code> Array of <code>input[type="checkbox"]</code> elements's data-filter attribute you want to use as a filter, array must contain string values of the <code>data-filter</code> attribute. Defaults to empty array. Filter will refresh on every change of a checkbox.</p>
+                    </details>
+                    <details>
+                        <summary><code>filterSelectInputs</code></summary>
+                        <p><code>array</code> Array of <code>select</code> elements's data-filter attribute you want to use as a filter, array must contain string values of the <code>data-filter</code> attribute of the <code>select</code> element. Defaults to empty array. Filter will refresh every on every change of the select element.</p>
+                    </details>
+                    <details>
+                        <summary><code>filterTextInputs</code></summary>
+                        <p><code>array</code> Array of <code>input[type="text"]</code> elements's data-filter attribute you want to use as a filter, array must contain string values of the <code>data-filter</code> attribute of the <code>input[type="text"]</code> element. Defaults to empty array. Filter will refresh on every keyup event of the input.</p>
+                    </details>
+                    <details>
+                        <summary><code>filterRangeInputs</code></summary>
+                        <p><code>array</code> Array of <code>input[type="range"]</code> or <code>input[type="range"][multiple]</code> elements's data-filter attribute you want to use as a filter, array must contain string values of the <code>data-filter</code> attribute of the <code>input[type="range"]</code> or <code>input[type="range"][multiple]</code> element. Defaults to empty array. Filter will refresh on every change of the range input. Multiple range is supported, use: <a href="http://projects.verou.me/multirange/" rel="noopener" target="blank">multirange polyfill</a> for this.</p>
+                    </details>
+                    <details>
+                        <summary><code>filterRadioInputs</code></summary>
+                        <p><code>array</code> Array of <code>input[type="radio"]</code> (where the name is discernable) elements's data-filter attribute you want to use as a filter, array must contain string values of the <code>data-filter</code> attribute of the <code>input[type="radio"]</code> element. Defaults to empty array. Filter will refresh on every change of the input(s).</p>
+                    </details>
+                    <details>
+                        <summary><code>filterStartTextInputs</code></summary>
+                        <p>Similar to filterTextInputs, the difference is that the search string will be compared to the first characters of the items' value. (Useful for locations) See: <code>filterTextInputs</code></p>
+                    </details>
+                    <details>
+                        <summary><code>resultNumberSelector</code></summary>
+                        <p><code>string</code> String for querySelector of which the innerHTML will be set as the number of results after the items have been filtered. Defaults to null.</p>
+                    </details>
+                    <details>
+                        <summary><code>noResultMessage</code></summary>
+                        <p><code>string</code> String for querySelector, element will be displayed when no results have been found after the filter has been applied. Make sure that this element is not visible by default. Defaults to null</p>
+                    </details>
+                    <details>
+                        <summary><code>showDisplayProperty</code></summary>
+                        <p><code>string</code> Display property which each items should be given when it meets the filter criteria (for example: grid, block, flex). Defaults to block.</p>
+                    </details>
+                    <details>
+                        <summary><code>hideDisplayProperty</code></summary>
+                        <p><code>string</code> Display property which each items should be given when it does not meet the filter criteria (for example: none, table, flex). Defaults to none.</p>
+                    </details>
+                    <details>
+                        <summary><code>callBackFunction</code></summary>
+                        <p><code>function</code> Callback function that will be fired once all filters have been applied, when using QuickFilter combined with QuickPagination, you can pass in a arrow function to call QuickPagination.init(), example:</p>
+<div><code>
+const paginateClass = new QuickPagination({...})
+const filterClass = new QuickFilter({
+    callBackFunction: () => {
+        paginateClass.init();
+    },
+...
+});
+</code></div>
+                        <p>Defautls to null.</p>
+                    </details>
+                    <details>
+                        <summary><code>modifySelectedFunction</code></summary>
+                        <p><code>function</code> Function that can be used to modify selected filters, passes argument of object of selected filters which has to be returned. <small class="muted-text">Tip: use this function to create a list of all selected filters.</small> Defaults to null.</p>
+<div><code>
+function myModifyFunction(filters) {
+    ... do something ...
+    return filters;
+}
+const filterClass = new QuickFilter({
+    modifySelectedFunction: (allFilters) => {
+        return myModifyFunction(allFilters);
+    },
+    ...
+});
+</code></div>
+                    </details>
+                    <details>
+                        <summary><code>itemsScope</code></summary>
+                        <p><code>string</code> String of querySelector of in which all filterable items are located. Please use this option when also using QuickPagination, that way the QuickFilter class only filters items within scopes, and not the clones in the pages from QuickPagination. Defaults to null, which will means that the document will be used to select the filterable items from.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

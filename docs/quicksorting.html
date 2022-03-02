@@ -1,0 +1,137 @@
+<div class="mb-5">
+    <h3><small class="text-muted">new</small> QuickSorting<small class="text-muted">({options})</small></h3>
+    <div class="btn-group flex-wrap my-2" role="group" aria-label="QuickPagination download buttons">
+        <a href="/js/QuickSorting.js" download class="btn btn-outline-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg> QuickSorting.js</a>
+        <a href="/js/QuickSorting.min.js" download class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg> QuickSorting.min.js <small><span class="badge bg-info">813B gzipped</span></small></a>
+    </div>
+    <p class="lead">The QuickSorting class makes it easy to sort list of items by numerical or alphabetical order.</p>
+    <p>QuickSorting class makes it easy to sort your filtered or paginated items. It can sort items by numbers, letters or randomize. Use the <a href="#demo" aria-label="demo example">demo</a> below to check it out.</p>
+    <div class="accordion" id="accordionExample-3">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    HTML Select requirements
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p><strong>The <code>select</code> element that triggers sorting must have some attributes to define how to sort the items.</strong> Use <code>data-attributes</code> to define how to sort, the order, the key to compare and the type. Use the <code>data-key</code> attribute to define the key to sort on (e.g. title) the value of this attribute must be the same as the data attribute on the items to sort (e.g. data-title="Lorem"). Use the <code>data-type</code> to define how to sort the items, this can either be "NUM" or "CHAR". Use the <code>data-order</code> attribute to define whether the sorting should be ascending or descending by setting it to "ASC" or "DESC". Here is a example of a <code>select</code> element that can sort items by title, amount of comments and has a random option (shuffles all items in a random order).</p>
+<div><code>
+&lt;select 
+    name="sort" 
+    id="sort-select" 
+    class="form-select">
+    &lt;option 
+        selected 
+        value="count-asc" 
+        data-key="count" 
+        data-type="NUM" 
+        data-order="ASC"
+    >
+    Number of comments (low to high)
+    &lt;/option>
+    &lt;option 
+        value="count-desc" 
+        data-key="count" 
+        data-type="NUM" 
+        data-order="DESC"
+    >
+    Number of comments (high to low)
+    &lt;/option>
+    &lt;option 
+        value="title-desc" 
+        data-key="title" 
+        data-type="CHAR" 
+        data-order="DESC"
+    >
+    Title (z to a)
+    &lt;/option>
+    &lt;option 
+        value="title-asc" 
+        data-key="title" 
+        data-type="CHAR" 
+        data-order="ASC"
+    >
+    Title (a to z)
+    &lt;/option>
+    &lt;option 
+        value="random" 
+        data-key="random"
+    >
+    Randomize!
+    &lt;/option>
+&lt;/select>
+</code></div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="h3eadingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="c3ollapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="c3ollapseTwo">
+                    Initialization
+                </button>
+            </h2>
+            <div id="c3ollapseTwo" class="accordion-collapse collapse" aria-labelledby="h3eadingTwo" data-bs-parent="#accordionExample-2">
+                <div class="accordion-body">
+                    <p><strong>To initialize the QuickSorting class, create a class instance and pass in the options object.</strong> See the next accordion what the options and defaults are.</p>
+<div><code>
+new QuickSorting({
+    elementsSelector: '#org-posts [data-index]',
+    parentElement: '#org-posts',
+    sortSelectSelector = 'select[name="sort"]'
+});
+</code></div>  
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="h3eadingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="c3ollapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="c3ollapseThree">
+                    Options
+                </button>
+            </h2>
+            <div id="c3ollapseThree" class="accordion-collapse collapse" aria-labelledby="h3eadingThree" data-bs-parent="#accordionExample-2">
+                <div class="accordion-body">
+                    <p><strong>The QuickSorting class uses a options object to define the behaviour of the sorting.</strong> The options object provides options to select which items to sort, what <code>select</code> element to use as trigger and a callback functionality.
+                    </p>
+                    <p>The default options object for the QuickPagination class is:</p>
+<div><code>
+{
+    elementsSelector = '[data-index]',
+    sortSelectSelector = 'select[name="sort"]',
+    parentElement = null,
+    callBackFunction = null
+}
+</code></div>
+                    <p>For individual explanation of each option, please read the documentation carefully.</p>
+                    <details>
+                        <summary><code>elementsSelector</code></summary>
+                        <p><code>string</code> String that will be used in a querySelector to define what items to sort. (when combined with QuickPagination and QuickFilter, select the original items (not the duplicates in the pagination) Defaults to '[data-index]'.</p>
+                    </details>
+                    <details>
+                        <summary><code>sortSelectSelector</code></summary>
+                        <p><code>string</code> String that will be used in a querySelector to select the <code>select</code> element of which the <code>option</code> defines how to sort the items. QuickSorting will add a eventlistener that will fire when the select element has changed. Defaults to 'select[name="sort"]'.</p>
+                    </details>
+                    <details>
+                        <summary><code>parentElement *required</code></summary>
+                        <p><code>string</code> String that will be used in a querySelector to select the parent element of the items, QuickSorting will empty this element when sorting is applied and will append the items in the desired order.</p>
+                    </details>
+                    <details>
+                        <summary><code>callBackFunction</code></summary>
+                        <p><code>function</code> Callback function that will be fired once all filters have been applied, when using QuickSorting combined with QuickFilter, you can pass in a arrow function to call QuickFilter.inputCallback(), example:</p>
+<div><code>
+const filterClass = new QuickFilter({...})
+const sortingClass = new QuickSorting({
+    callBackFunction: () => {
+        filterClass.inputCallback();
+    },
+...
+});
+</code></div>
+                        <p>Defautls to null.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
