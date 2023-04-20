@@ -20,7 +20,7 @@ class QuickFilter {
         /* Set display property of hide and visible defaults to none and block : string */
         this.showDisplayProperty = showDisplayProperty;
         this.hideDisplayProperty = hideDisplayProperty;
-        if (itemsScope === null){
+        if (itemsScope === null) {
             this.itemsScope = document;
         } else {
             this.itemsScope = document.querySelector(itemsScope);
@@ -143,7 +143,7 @@ class QuickFilter {
                 return false;
             }
         }
-        if (parseFloat(value) >= minValue && parseFloat(value) <= maxValue){
+        if (parseFloat(value) >= minValue && parseFloat(value) <= maxValue) {
             return true;
         } else {
             return false;
@@ -152,7 +152,7 @@ class QuickFilter {
     /* Function that returns true or false for select elements */
     checkSelect(key, value) {
         /* Check if value contains multiple values (for multi select) */
-        if (value.indexOf(',') !== -1){
+        if (value.indexOf(',') !== -1) {
             return this.allFilters[key].some(item => value.split(',').includes(item));
         }
         return (this.allFilters[key] == value);
@@ -177,7 +177,7 @@ class QuickFilter {
         this.allDataSets.forEach(dataSet => {
             /* Set flag for should hide element to false */
             let shouldShow = [];
-            for (var [key, value] of Object.entries(this.allFilters)){
+            for (var [key, value] of Object.entries(this.allFilters)) {
                 shouldShow[key] = true;
             }
             for (var [key, value] of Object.entries(this.allFilters)) {
@@ -267,5 +267,6 @@ class QuickFilter {
         if (this.callBackFunction !== null) {
             this.callBackFunction();
         }
+        console.log(this.allFilters);
     }
 }

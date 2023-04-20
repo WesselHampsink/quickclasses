@@ -239,11 +239,12 @@ $firstLetters = array_unique($firstLetters);
         </div>
     </footer>
     <script src="js/multirange.js" defer></script>
-    <!-- <script src="js/QuickFilter.min.js" async></script> -->
-    <!-- <script src="js/QuickSorting.min.js" async></script> -->
-    <!-- <script src="js/QuickPagination.min.js" async></script> -->
+    <script src="dist/QuickFilter.js" defer></script>
+    <script src="dist/QuickSorting.js" defer></script>
+    <script src="js/QuickPagination.js" defer></script>
     <!-- <script src="js/QuickClasses.min.js" defer></script>  -->
-    <script type="module" src="js/scripts.js" async></script>
+    <script src="js/scripts.js" async></script>
+    <!-- <script type="module" src="js/scripts.js" async></script> -->
 </body>
 
 </html>
