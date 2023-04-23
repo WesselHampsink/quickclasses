@@ -12,7 +12,35 @@ foreach ($dataObj as $data) {
     array_push($firstLetters, substr($data->title, 0, 1));
 }
 $firstLetters = array_unique($firstLetters);
+
+$movie_categories = array(
+    "Action",
+    "Adventure",
+    "Comedy",
+    "Drama",
+    "Horror",
+    "Romance",
+    "Science Fiction",
+    "Fantasy",
+    "Documentary",
+    "Thriller",
+    "Mystery",
+    "Crime",
+    "Animation",
+    "Family",
+    "Musical"
+  );
+  
+
+function randomMovieCategories($movie_categories) {
+    $num_categories = random_int(0, 3); // randomly pick a number between 0 and 3
+    shuffle($movie_categories); // shuffle the array to ensure randomness
+    $selected_categories = array_slice($movie_categories, 0, $num_categories); // select the first $num_categories items from the shuffled array
+    return $selected_categories;
+}
+
 ?>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,7 +80,10 @@ $firstLetters = array_unique($firstLetters);
                     <h2 class="display-6 my-4">Javascript classes that make filtering, pagination and sorting easy and quick.</h2>
                     <p class="lead">Also available as es6 modules <a href="#modules">here</a>.</p>
                     <p class="main-cta">
-                        <a href="/js/QuickClasses.min.js" download class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg> Download QuickClasses <small><span class="badge bg-info">3.7kB gzipped</span></small></a>
+                        <a href="/js/QuickClasses.min.js" download class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                            </svg> Download QuickClasses <small><span class="badge bg-info">3.7kB gzipped</span></small></a>
                     </p>
                     <hr class="my-5">
                 </div>
@@ -85,6 +116,19 @@ $firstLetters = array_unique($firstLetters);
                                 <input type="text" class="form-control" id="Commenters" data-filter="commenters" placeholder="Search commenters...">
                             </div>
                             <div class="form-group mb-3">
+                                <label for="Cateogry">Category</label>
+                                <div class="form-check">
+                                    <input data-filter="category" name="category" class="form-check-input" id="category-all" type="radio" value="" checked>
+                                    <label class="form-check-label" for="category-all">All</label>
+                                </div>
+                                <?php foreach ($movie_categories as $category) : ?>
+                                    <div class="form-check">
+                                        <input data-filter="category" name="category" class="form-check-input" id="<?php echo $category; ?>" type="radio" value="<?php echo $category; ?>">
+                                        <label class="form-check-label" for="<?php echo $category; ?>"><?php echo $category; ?></label>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="form-group mb-3">
                                 <label for="Author">Author</label>
                                 <?php foreach ($usersObj as $user) : ?>
                                     <div class="form-check">
@@ -97,7 +141,7 @@ $firstLetters = array_unique($firstLetters);
                                 <label for="beginletter">Begin letter</label>
                                 <select name="beginLetter" id="beginLetter" data-filter="firstletter" class="form-select" title="First letter">
                                     <option value="">Any</option>
-                                    <?php foreach ($firstLetters as $letter): ?>
+                                    <?php foreach ($firstLetters as $letter) : ?>
                                         <option value="<?php echo $letter; ?>"><?php echo $letter; ?></option>
                                     <?php endforeach; ?>
                                 </select>
@@ -156,7 +200,8 @@ $firstLetters = array_unique($firstLetters);
                                 }
                             }
                         }
-                        function getCommentsByPostId($id, $commentsObj) {
+                        function getCommentsByPostId($id, $commentsObj)
+                        {
                             $comments = array();
                             foreach ($commentsObj as $comment) {
                                 if ($comment->postId === $id) {
@@ -173,48 +218,60 @@ $firstLetters = array_unique($firstLetters);
                             $countToRemove = random_int(1, 5); // can return 1 or 5
                             $keysToRemove = array_rand($comments, $countToRemove); // returns an int or array
                             // create the array to loop
-                            foreach (\is_array($keysToRemove) ? $keysToRemove : [$keysToRemove] as $key) { 
+                            foreach (\is_array($keysToRemove) ? $keysToRemove : [$keysToRemove] as $key) {
                                 unset($comments[$key]);
                             }
                             $commentCounts = count($comments);
+                            $categories = randomMovieCategories($movie_categories);
+
                         ?>
-                            <div class="col-md-12 col-lg-6 col-xl-4 mb-4" data-count="<?php echo $commentCounts; ?>" data-index="<?php echo $obj->id; ?>" data-name="<?php echo $userObj->name; ?>" data-text="<?php echo $obj->title; ?>" data-title="<?php echo $obj->title ?>" data-firstletter="<?php echo substr($obj->title, 0, 1); ?>" data-commenters="<?php foreach ($comments as $comment){echo $comment->email . ',';} ?>">
+                            <div class="col-md-12 col-lg-6 col-xl-4 mb-4" data-count="<?php echo $commentCounts; ?>" data-index="<?php echo $obj->id; ?>" data-name="<?php echo $userObj->name; ?>" data-text="<?php echo $obj->title; ?>" data-title="<?php echo $obj->title ?>" data-firstletter="<?php echo substr($obj->title, 0, 1); ?>" data-category="<?php echo implode(',', $categories); ?>" data-commenters="<?php foreach ($comments as $comment) {
+                                echo $comment->email . ',';
+                            } ?>">
                                 <div class="card rounded-3 shadow-sm h-100">
                                     <img loading="lazy" width="310" height="180" src="<?php echo 'https://picsum.photos/310/180?random=' . $obj->id; ?>" alt="Random image <?php echo $obj->id; ?>" class="card-img-top">
                                     <div class="card-body">
-                                        <p class="card-title"><?php echo $obj->title; ?></p>
+                                        <?php 
+                                        if (!empty($categories)): ?>
+                                            <div class="d-flex flex-wrap gap-1 categories mb-2">
+                                                <?php foreach ($categories as $category): ?>
+                                                    <div class="badge rounded-pill text-bg-primary"><?php echo $category; ?></div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                        <p class="card-title fs-5 fw-medium"><?php echo $obj->title; ?></p>
                                         <small class="text-muted">Author: <?php echo $userObj->name; ?></small>
                                         <p class="card-text"><?php echo $obj->body; ?></p>
                                     </div>
                                     <div class="list-group list-group-flush">
-                                    <?php
-                                    if (!empty($comments)):
-                                    ?>
-                                    <div class="accordion accordion-flush accordion-collapse">
-                                        <div class="accordion-item">
-                                            <div class="accordion-header">
-                                                <button class="accordion-button collapsed">
-                                                    Comments &nbsp; <span class="text-muted">(<?php echo $commentCounts; ?>)</span>
-                                                </button>
+                                        <?php
+                                        if (!empty($comments)) :
+                                        ?>
+                                            <div class="accordion accordion-flush accordion-collapse">
+                                                <div class="accordion-item">
+                                                    <div class="accordion-header">
+                                                        <button class="accordion-button collapsed">
+                                                            Comments &nbsp; <span class="text-muted">(<?php echo $commentCounts; ?>)</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="accordion-collapse collapse">
+                                                        <?php
+                                                        foreach ($comments as $comment) {
+                                                        ?>
+                                                            <div class="accordion-body"><strong><?php echo $comment->email; ?></strong> <?php echo $comment->name; ?></div>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="accordion-collapse collapse">
-                                                <?php
-                                                    foreach ($comments as $comment) {
-                                                ?>
-                                                    <div class="accordion-body"><strong><?php echo $comment->email; ?></strong> <?php echo $comment->name; ?></div>
-                                                <?php
-                                                    }
-                                                ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php
-                                    endif;
-                                    ?>
+                                        <?php
+                                        endif;
+                                        ?>
                                     </div>
                                 </div>
                             </div>
-                        <?php 
+                        <?php
                             $postCount++;
                         endforeach; ?>
                     </div>
@@ -227,7 +284,7 @@ $firstLetters = array_unique($firstLetters);
             <div class="row">
                 <div class="col-lg-8">
                     <h3 class="display-6">Credits</h3>
-                    <p>Credits for making this site possible:</p>
+                    <p>Tools that made this site possible:</p>
                     <ul>
                         <li><a href="https://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap</a></li>
                         <li><a href="http://projects.verou.me/multirange/" target="_blank" rel="noopener">Multiple range slider polyfill</a></li>
@@ -240,8 +297,9 @@ $firstLetters = array_unique($firstLetters);
     </footer>
     <script src="js/multirange.js" defer></script>
     <script src="dist/QuickFilter.js" defer></script>
+    <script src="dist/QuickFilterCounter.js" defer></script>
     <script src="dist/QuickSorting.js" defer></script>
-    <script src="js/QuickPagination.js" defer></script>
+    <script src="dist/QuickPagination.js" defer></script>
     <!-- <script src="js/QuickClasses.min.js" defer></script>  -->
     <script src="js/scripts.js" async></script>
     <!-- <script type="module" src="js/scripts.js" async></script> -->

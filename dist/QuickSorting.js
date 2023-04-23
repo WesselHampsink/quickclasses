@@ -1,5 +1,5 @@
 class QuickSorting {
-    constructor({ elementsSelector = '[data-index]', sortSelectSelector = 'select[name="sort"]', parentElement = null, callBackFunction = undefined }) {
+    constructor({ elementsSelector = '[data-index]', sortSelectSelector = 'select[name="sort"]', parentElement = null, callBackFunction = undefined, }) {
         var _a, _b;
         this._elements = document.querySelectorAll(elementsSelector);
         if (this._elements === null)
@@ -24,7 +24,7 @@ class QuickSorting {
     init() {
         this.getSelectedValue();
         this._parentElement.innerHTML = '';
-        this.sort().forEach(ele => {
+        this.sort().forEach((ele) => {
             this._parentElement.appendChild(ele);
         });
         if (this._callBackFunction !== null) {
@@ -45,11 +45,11 @@ class QuickSorting {
      */
     getSelectedValue() {
         var _a, _b;
-        return this._selectedValue = {
+        return (this._selectedValue = {
             key: this._sortSelect.options[this._sortSelect.selectedIndex].dataset.key,
             order: (_a = this._sortSelect.options[this._sortSelect.selectedIndex].dataset) === null || _a === void 0 ? void 0 : _a.order,
             type: (_b = this._sortSelect.options[this._sortSelect.selectedIndex].dataset) === null || _b === void 0 ? void 0 : _b.type,
-        };
+        });
     }
     /**
      * Sorts items by the given selected order and key.
@@ -61,7 +61,7 @@ class QuickSorting {
         let type = this._selectedValue.type;
         return [...this._elements].sort((a, b) => {
             if (searchKey === 'random') {
-                return .5 - Math.random();
+                return 0.5 - Math.random();
             }
             if (type === 'CHAR') {
                 if (sortOrder === 'ASC') {

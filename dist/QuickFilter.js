@@ -1,6 +1,20 @@
 class QuickFilter {
-    constructor({ elementSelector = '[data-index]', filterCheckboxInputs = undefined, filterSelectInputs = undefined, filterTextInputs = undefined, filterRangeInputs = undefined, filterRadioInputs = undefined, filterStartTextInputs = undefined, resultNumberSelector = null, noResultMessage = null, showDisplayProperty = 'block', hideDisplayProperty = 'none', callBackFunction = null, modifySelectedFunction = undefined, itemsScope = null, }) {
+    constructor({ elementSelector = '[data-index]', filterCheckboxInputs = undefined, filterSelectInputs = undefined, filterTextInputs = undefined, filterRangeInputs = undefined, filterRadioInputs = undefined, filterStartTextInputs = undefined, resultNumberSelector = null, noResultMessage = null, showDisplayProperty = 'block', hideDisplayProperty = 'none', callBackFunction = null, modifySelectedFunction = undefined, itemsScope = null, keyupDebounce = 200, }) {
         var _a, _b;
+        this._allShown = [];
+        /**
+         * Debounces input events, to prevent firing on every single keystroke
+         * @param {function} callback
+         * @param {number} time
+         * @returns {function}
+         */
+        this.debounce = (callback, time) => {
+            let debounceTimer;
+            return () => {
+                window.clearTimeout(debounceTimer);
+                debounceTimer = window.setTimeout(callback.bind(null), time);
+            };
+        };
         this._elementSelector = elementSelector;
         /* Set display property of hide and visible defaults to none and block : string */
         this._showDisplayProperty = showDisplayProperty;
@@ -57,15 +71,19 @@ class QuickFilter {
         if (typeof filterRadioInputs !== 'undefined') {
             this._modifySelectedFunction = modifySelectedFunction;
         }
+        this._keyupDebounce = keyupDebounce;
         /* Scope in which results should be found, equals to document */
         /* Trigger event when checkbox or input has changed */
+        this.inputCallback = this.inputCallback.bind(this);
         this._allInputs.forEach((input) => {
-            input.addEventListener('change', () => {
-                this.inputCallback();
-            });
-            input.addEventListener('keyup', () => {
-                this.inputCallback();
-            });
+            if (input instanceof HTMLInputElement && (input.type === 'text' || input.type === 'search')) {
+                input.addEventListener('keyup', this.debounce(this.inputCallback, this._keyupDebounce));
+            }
+            else {
+                input.addEventListener('change', () => {
+                    this.inputCallback();
+                });
+            }
         });
         this.getAllDataSets();
         this.showAmountResults();
@@ -106,6 +124,7 @@ class QuickFilter {
         let showThis = this._itemsScope.querySelector(`[data-index="${index}"]`);
         if (showThis instanceof HTMLElement) {
             showThis.style.display = this._showDisplayProperty;
+            this._allShown.push(showThis);
         }
         this._showCounter++;
     }
@@ -154,11 +173,16 @@ class QuickFilter {
     }
     /* Function that returns true or false for input type radio or select elements */
     radioFilter(key, value) {
+        if (value.indexOf(',') !== -1) {
+            const values = value.split(',');
+            return values.some((value) => value === this._allFilters[key][0]);
+        }
         return this._allFilters[key][0] === value;
     }
     /* Function to filter elements by using their datasets and selected values */
     filterFunction() {
         /* Hide all elements */
+        this._allShown = [];
         this.hideAll();
         this._allDataSets.forEach((dataSet) => {
             /* Set flag for should hide element to false */
@@ -172,10 +196,12 @@ class QuickFilter {
                 if (this._filterCheckboxInputs instanceof Array && this._filterCheckboxInputs.indexOf(key) !== -1) {
                     shouldShow[key] = this.checkFilter(key, dataSet[key]);
                 }
-                else if (this._filterSelectInputs instanceof Array && this._filterSelectInputs.indexOf(key) !== -1) {
+                else if (this._filterSelectInputs instanceof Array &&
+                    this._filterSelectInputs.indexOf(key) !== -1) {
                     shouldShow[key] = this.checkSelect(key, dataSet[key]);
                 }
-                else if (this._filterStartTextInputs instanceof Array && this._filterStartTextInputs.indexOf(key) !== -1) {
+                else if (this._filterStartTextInputs instanceof Array &&
+                    this._filterStartTextInputs.indexOf(key) !== -1) {
                     shouldShow[key] = this.textStartsWithFilter(key, dataSet[key]);
                 }
                 else if (this._filterTextInputs instanceof Array && this._filterTextInputs.indexOf(key) !== -1) {
@@ -274,7 +300,7 @@ class QuickFilter {
         }
         this.showAmountResults();
         if (typeof this._callBackFunction !== 'undefined') {
-            this._callBackFunction();
+            this._callBackFunction(this);
         }
     }
 }

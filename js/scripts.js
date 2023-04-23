@@ -15,22 +15,28 @@ const paginateClass = new QuickPagination({
     amountOfPrevNextItems: 2,
     pageClasses: ['page', 'row']
 })
+
+const counter = new QuickFilterCounter({});
+
 /* Create QuickFilter class */
 const filterClass = new QuickFilter({
     filterCheckboxInputs: ['name'],
     filterSelectInputs: ['firstletter'],
     filterTextInputs: ['text', 'commenters'],
     filterRangeInputs: ['count'],
+    filterRadioInputs: ['category'],
     resultNumberSelector: '#number-results',
     noResultMessage: '#no-results',
     elementSelector: '[data-index]',
     itemsScope: '#org-posts',
     resultNumberSelector: '#counter',
-    callBackFunction: () => {
+    callBackFunction: (QuickFilterClass) => {
         paginateClass.init();
         createAccordionEvent();
+        counter.init(QuickFilterClass)
     }
 });
+
 /* Create QuickeSort class */
 const sortClass = new QuickSorting({
     elementsSelector: '#org-posts [data-index]',
