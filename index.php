@@ -29,10 +29,11 @@ $movie_categories = array(
     "Animation",
     "Family",
     "Musical"
-  );
-  
+);
 
-function randomMovieCategories($movie_categories) {
+
+function randomMovieCategories($movie_categories)
+{
     $num_categories = random_int(0, 3); // randomly pick a number between 0 and 3
     shuffle($movie_categories); // shuffle the array to ensure randomness
     $selected_categories = array_slice($movie_categories, 0, $num_categories); // select the first $num_categories items from the shuffled array
@@ -46,8 +47,8 @@ function randomMovieCategories($movie_categories) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>QuickClasses | filter, Pagination and Sorting Javascript Libraries</title>
     <meta name="description" content="Vanilla Javascript classes that make filtering, pagination and sorting easy and quick. QuickFilter, QuickSorting and QuickPagination">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/bootstrap.css?v=1.0.1">
+    <link rel="stylesheet" href="css/styles.css?v=1.0.1">
 </head>
 
 <body class="bg-light">
@@ -83,7 +84,7 @@ function randomMovieCategories($movie_categories) {
                         <a href="/js/QuickClasses.min.js" download class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
                                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
                                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-                            </svg> Download QuickClasses <small><span class="badge bg-info">3.7kB gzipped</span></small></a>
+                            </svg> Download QuickClasses <small><span class="badge bg-info">4.8kB gzipped</span></small></a>
                     </p>
                     <hr class="my-5">
                 </div>
@@ -226,15 +227,15 @@ function randomMovieCategories($movie_categories) {
 
                         ?>
                             <div class="col-md-12 col-lg-6 col-xl-4 mb-4" data-count="<?php echo $commentCounts; ?>" data-index="<?php echo $obj->id; ?>" data-name="<?php echo $userObj->name; ?>" data-text="<?php echo $obj->title; ?>" data-title="<?php echo $obj->title ?>" data-firstletter="<?php echo substr($obj->title, 0, 1); ?>" data-category="<?php echo implode(',', $categories); ?>" data-commenters="<?php foreach ($comments as $comment) {
-                                echo $comment->email . ',';
-                            } ?>">
+                                                                                                                                                                                                                                                                                                                                                                                                                            echo $comment->email . ',';
+                                                                                                                                                                                                                                                                                                                                                                                                                        } ?>">
                                 <div class="card rounded-3 shadow-sm h-100">
                                     <img loading="lazy" width="310" height="180" src="<?php echo 'https://picsum.photos/310/180?random=' . $obj->id; ?>" alt="Random image <?php echo $obj->id; ?>" class="card-img-top">
                                     <div class="card-body">
-                                        <?php 
-                                        if (!empty($categories)): ?>
+                                        <?php
+                                        if (!empty($categories)) : ?>
                                             <div class="d-flex flex-wrap gap-1 categories mb-2">
-                                                <?php foreach ($categories as $category): ?>
+                                                <?php foreach ($categories as $category) : ?>
                                                     <div class="badge rounded-pill text-bg-primary"><?php echo $category; ?></div>
                                                 <?php endforeach; ?>
                                             </div>
@@ -296,12 +297,12 @@ function randomMovieCategories($movie_categories) {
         </div>
     </footer>
     <script src="js/multirange.js" defer></script>
-    <script src="dist/QuickFilter.js" defer></script>
-    <script src="dist/QuickFilterCounter.js" defer></script>
-    <script src="dist/QuickSorting.js" defer></script>
-    <script src="dist/QuickPagination.js" defer></script>
-    <!-- <script src="js/QuickClasses.min.js" defer></script>  -->
-    <script src="js/scripts.js" async></script>
+    <!-- <script src="dist/QuickFilter.js?v=1.0.1" defer></script>
+    <script src="dist/QuickFilterCounter.js?v=1.0.1" defer></script>
+    <script src="dist/QuickSorting.js?v=1.0.1" defer></script>
+    <script src="dist/QuickPagination.js?v=1.0.1" defer></script> -->
+    <script src="js/QuickClasses.min.js?v=1.0.1" defer></script>
+    <script src="js/scripts.js?v=1.0.1" defer></script>
     <!-- <script type="module" src="js/scripts.js" async></script> -->
 </body>
 

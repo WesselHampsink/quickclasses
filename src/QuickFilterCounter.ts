@@ -43,9 +43,37 @@ class QuickFilterCounter {
         this.createCounterElement(this.getLabelByElement(input), this.resultsWhenChecked(input));
       }
       if (input instanceof HTMLInputElement && input.checked && this._removeCounterFromSelected) {
-        this.removeOldCounterFromLabel(this.getLabelByElement(input));
+        this.removeOldCounter(this.getLabelByElement(input));
+      }
+      if (this._enableOnSelects && input instanceof HTMLSelectElement) {
+        for (const option of input.options) {
+          this.createCountElementOption(option, this.resultsWhenCheckedSelect(input, option));
+        }
+      }
+      if (input instanceof HTMLInputElement && input.checked && this._removeCounterFromSelected) {
+        this.removeOldCounter(this.getLabelByElement(input));
       }
     });
+  }
+
+  resultsWhenCheckedSelect(select: HTMLSelectElement, option: HTMLOptionElement): number {
+    this._oldFilters = JSON.parse(JSON.stringify(this._QuickFilterClass._allFilters));
+    const filterKey = select.dataset?.filter;
+    const filterValue = option.value == '' ? null : option.value;
+    let amountWhenChecked = 0;
+    // Append value to check to the filters object
+    if (this._QuickFilterClass._allFilters[filterKey] === null && filterValue !== null) {
+      this._QuickFilterClass._allFilters[filterKey] = [filterValue];
+    } else if (filterValue === null) {
+      this._QuickFilterClass._allFilters[filterKey] = null;
+    } else {
+      this._QuickFilterClass._allFilters[filterKey] = [filterValue];
+    }
+    this._QuickFilterClass.filterFunction();
+    amountWhenChecked = this._QuickFilterClass._showCounter;
+    // Reset to original value
+    this._QuickFilterClass._allFilters = this._oldFilters;
+    return amountWhenChecked;
   }
 
   resultsWhenChecked(input: HTMLInputElement): number {
@@ -54,7 +82,10 @@ class QuickFilterCounter {
     const filterValue = input.value == '' ? null : input.value;
     let amountWhenChecked = 0;
     // Append value to check to the filters object
-    if ((this._QuickFilterClass._allFilters[filterKey] === null || input?.type === 'radio') && filterValue !== null) {
+    if (
+      (this._QuickFilterClass._allFilters[filterKey] === null || input?.type === 'radio') &&
+      filterValue !== null
+    ) {
       this._QuickFilterClass._allFilters[filterKey] = [filterValue];
     } else if (filterValue === null) {
       this._QuickFilterClass._allFilters[filterKey] = null;
@@ -73,15 +104,24 @@ class QuickFilterCounter {
     if (inputId) return document.querySelector(`label[for="${inputId}"]`);
   }
 
-  createCounterElement(label: HTMLLabelElement, results: number) {
-    this.removeOldCounterFromLabel(label);
+  createCounterElementHTML(results: number): HTMLSpanElement {
     const counterElement: HTMLSpanElement = document.createElement('span');
     counterElement.className = `${this._counterClass} _quick_counter`;
     counterElement.textContent = `(${results})`;
-    label.append(counterElement);
+    return counterElement;
   }
 
-  removeOldCounterFromLabel(label: HTMLLabelElement) {
-    label.querySelector('._quick_counter')?.remove();
+  createCountElementOption(option: HTMLOptionElement, results: number) {
+    this.removeOldCounter(option);
+    option.append(this.createCounterElementHTML(results));
+  }
+
+  createCounterElement(label: HTMLLabelElement, results: number) {
+    this.removeOldCounter(label);
+    label.append(this.createCounterElementHTML(results));
+  }
+
+  removeOldCounter(element: HTMLLabelElement | HTMLOptionElement) {
+    element.querySelector('._quick_counter')?.remove();
   }
 }
