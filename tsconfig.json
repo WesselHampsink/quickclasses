@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "esModuleInterop": true,  
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "rootDir": "source",
+    "outDir": "dist",
+    "lib": ["esnext", "dom"],
+    "experimentalDecorators": true,
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true
+  }
+}
