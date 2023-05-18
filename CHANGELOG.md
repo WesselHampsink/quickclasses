@@ -1,5 +1,11 @@
 # quickclasses
 
+## 2.0.1
+
+### Patch Changes
+
+- e3298e2: Publish to NPM
+
 ## 2.0.0
 
 ### Major Changes
