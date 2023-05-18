@@ -1,5 +1,0 @@
----
-'quickclasses': major
----
-
-Initial release
