@@ -13,7 +13,7 @@
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w",
-    "build": "tsup src/index.ts --fromat cjs,esm --dts",
+    "build": "tsup source/index.ts --format cjs,esm --dts",
     "build:watch": "tsc --watch",
     "lint": "tsc"
   },
