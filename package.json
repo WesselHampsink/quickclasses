@@ -1,10 +1,11 @@
 {
   "name": "quickclasses",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Classes that filter, sort and create pagination for your page. Easy to use and very fast!",
   "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.js",
   "files": [
     "dist",
     "source"
@@ -12,12 +13,12 @@
   "scripts": {
     "prepare": "tsc",
     "watch": "tsc -w",
-    "build": "tsc",
+    "build": "tsup src/index.ts --fromat cjs,esm --dts",
     "build:watch": "tsc --watch",
-    "lint": "tslint --project \"./tsconfig.json\""
+    "lint": "tsc"
   },
-  "types": "source/index.d.ts",
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@types/node": "^20.1.3",
     "tslint": "^6.1.3",
     "typescript": "^5.0.4"
@@ -38,5 +39,8 @@
     "quick"
   ],
   "author": "Wessel Hampsink",
-  "license": "ISC"
+  "license": "MIT",
+  "dependencies": {
+    "tsup": "^6.7.0"
+  }
 }

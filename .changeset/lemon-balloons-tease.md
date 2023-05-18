@@ -1,0 +1,5 @@
+---
+'quickclasses': major
+---
+
+Initial release

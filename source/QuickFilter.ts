@@ -5,7 +5,7 @@ import {
   QuickFilterObject,
   QuickFilterObjectKey,
   QuickFilterOptions,
-} from 'source';
+} from './index';
 
 export default class QuickFilter {
   _elementSelector: string;
@@ -212,7 +212,7 @@ export default class QuickFilter {
     return parseFloat(value) >= minValue && parseFloat(value) <= maxValue ? true : false;
   }
 
-  /* Function that returns true or false for select elements */
+  /* Function that returns true or false for select html elements */
   checkSelect(key: QuickFilterObjectKey, value: string | undefined): boolean {
     if (value === undefined || value === '') return false;
     /* Check if value contains multiple values (for multi select) */

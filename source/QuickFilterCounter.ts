@@ -1,4 +1,4 @@
-import { QuickFilterCounterOptions, QuickFilterObject } from 'source';
+import { QuickFilterCounterOptions, QuickFilterObject } from './index';
 import QuickFilter from './QuickFilter';
 
 export default class QuickFilterCounter {
@@ -58,7 +58,7 @@ export default class QuickFilterCounter {
     if (filterKey === undefined) return 0;
     const filterValue = option.value == '' ? null : option.value;
     let amountWhenChecked = 0;
-    // Append value to check to the filters object
+    // Append value when checked to the filters object
     if (this._QuickFilterClass._allFilters[filterKey] === null && filterValue !== null) {
       this._QuickFilterClass._allFilters[filterKey] = [filterValue];
     } else if (filterValue === null) {

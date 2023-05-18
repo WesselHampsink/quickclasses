@@ -86,7 +86,3 @@ export interface QuickPaginationOptions {
   pageClasses: string[];
   amountOfPrevNextItems: number;
 }
-
-declare module 'quickclasses' {
-  QuickFilter, QuickPagination, QuickSorting, QuickFilterCounter;
-}

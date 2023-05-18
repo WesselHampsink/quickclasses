@@ -1,4 +1,4 @@
-import { QuickSortingOptions, QuickSortingOrder, QuickSortingSelected, QuickSortingType } from 'source';
+import { QuickSortingOptions, QuickSortingOrder, QuickSortingSelected, QuickSortingType } from './index';
 
 export default class QuickSorting {
   _elements: NodeListOf<HTMLElement>;
@@ -18,13 +18,14 @@ export default class QuickSorting {
     if (this._sortSelect === null) return;
     if (parentElement === null) return;
     this._parentElement = document.querySelector(parentElement);
-    if (this._parentElement === null) this._parentElement === this._elements[0].parentElement;
+    if (this._parentElement === null && this._elements[0]?.parentElement !== undefined)
+      this._parentElement = this._elements[0].parentElement;
     this._callBackFunction = callBackFunction;
     this.appendEvent();
     this._selectedValue = {
-      key: this._sortSelect.options[this._sortSelect.selectedIndex].dataset?.key || 'random',
-      order: this._sortSelect.options[this._sortSelect.selectedIndex].dataset?.order as QuickSortingOrder,
-      type: this._sortSelect.options[this._sortSelect.selectedIndex].dataset?.type as QuickSortingType,
+      key: this._sortSelect.options[this._sortSelect.selectedIndex]?.dataset?.key || 'random',
+      order: this._sortSelect.options[this._sortSelect.selectedIndex]?.dataset?.order as QuickSortingOrder,
+      type: this._sortSelect.options[this._sortSelect.selectedIndex]?.dataset?.type as QuickSortingType,
     };
   }
   /**
@@ -51,14 +52,14 @@ export default class QuickSorting {
     });
   }
   /**
-   * Method gets selected values from the select element
+   * Method gets selected values from the select html element
    * @returns {QuickSortingSelected} this._selectedValue object of selected value
    */
   getSelectedValue(): QuickSortingSelected {
     return (this._selectedValue = {
-      key: this._sortSelect?.options[this._sortSelect?.selectedIndex].dataset.key || 'random',
-      order: this._sortSelect?.options[this._sortSelect?.selectedIndex].dataset?.order as QuickSortingOrder,
-      type: this._sortSelect?.options[this._sortSelect?.selectedIndex].dataset?.type as QuickSortingType,
+      key: this._sortSelect?.options[this._sortSelect?.selectedIndex]?.dataset.key || 'random',
+      order: this._sortSelect?.options[this._sortSelect?.selectedIndex]?.dataset?.order as QuickSortingOrder,
+      type: this._sortSelect?.options[this._sortSelect?.selectedIndex]?.dataset?.type as QuickSortingType,
     });
   }
   /**

@@ -1,4 +1,4 @@
-import { CssDisplayProperty, QuickPaginationOptions } from 'source';
+import { CssDisplayProperty, QuickPaginationOptions } from './index';
 
 export default class QuickPagination {
   _chunks: Array<HTMLElement[]> = [];
@@ -111,7 +111,7 @@ export default class QuickPagination {
       const slicedVisItems: HTMLElement[] = this._visItems.slice(i, (i += this._perPage));
       this._chunks.push(slicedVisItems);
     }
-    if (this._chunks[this._chunks.length - 1].length === 0) {
+    if (this._chunks[this._chunks?.length - 1]?.length === 0) {
       this._chunks.pop();
     }
     this._amountOfPages = this._chunks.length;
@@ -194,12 +194,12 @@ export default class QuickPagination {
   createPage(i: number): HTMLDivElement {
     let numPage: HTMLDivElement = document.createElement('div');
     for (let i = 0; i < this._pageClasses.length; i++) {
-      numPage.classList.add(this._pageClasses[i]);
+      numPage.classList.add(this._pageClasses[i] ?? '');
     }
     numPage.id = 'page-' + (i + 1);
     numPage.dataset.page = `${i + 1}`;
     numPage.style.display = 'none';
-    this._chunks[i].forEach((element) => {
+    this._chunks[i]?.forEach((element) => {
       numPage.appendChild(element.cloneNode(true));
     });
     return numPage;
@@ -302,10 +302,10 @@ export default class QuickPagination {
    */
   setContentAndIdForListItem(item: HTMLLIElement, nextOrPrev: 'next' | 'prev'): HTMLLIElement {
     item.id = 'pagination-' + nextOrPrev + '-button';
-    if (nextOrPrev === 'next') {
+    if (nextOrPrev === 'next' && item.children[0] !== undefined) {
       item.children[0].innerHTML = this._contentNextButton;
     }
-    if (nextOrPrev === 'prev') {
+    if (nextOrPrev === 'prev' && item.children[0] !== undefined) {
       item.children[0].innerHTML = this._contentPrevButton;
     }
     return item;
@@ -316,12 +316,19 @@ export default class QuickPagination {
    */
   enableListItem() {
     if (this._nextPrevButtons === false) return;
-    let nextButton: Element | null | undefined = this._paginationElement?.children[0].lastElementChild;
-    let prevButton: Element | null | undefined = this._paginationElement?.children[0].firstElementChild;
-    prevButton?.classList.remove('disabled');
-    nextButton?.classList.remove('disabled');
-    prevButton?.children[0].removeAttribute('aria-disabled');
-    nextButton?.children[0].removeAttribute('aria-disabled');
+    if (
+      this._paginationElement?.children[0]?.lastElementChild !== undefined &&
+      this._paginationElement?.children[0].firstElementChild !== undefined
+    ) {
+      let nextButton: Element | null = this._paginationElement?.children[0].lastElementChild;
+      let prevButton: Element | null = this._paginationElement?.children[0].firstElementChild;
+      prevButton?.classList.remove('disabled');
+      nextButton?.classList.remove('disabled');
+      if (prevButton?.children[0] !== undefined && nextButton?.children[0] !== undefined) {
+        prevButton?.children[0].removeAttribute('aria-disabled');
+        nextButton?.children[0].removeAttribute('aria-disabled');
+      }
+    }
   }
 
   /**
@@ -330,7 +337,7 @@ export default class QuickPagination {
    * @returns {HTMLLIElement} item
    */
   disableListItem(item: HTMLLIElement): HTMLLIElement {
-    item.children[0].setAttribute('aria-disabled', 'true');
+    item.children[0]?.setAttribute('aria-disabled', 'true');
     item.classList.add('disabled');
     return item;
   }
@@ -367,14 +374,16 @@ export default class QuickPagination {
   createNextPrev() {
     this._prevButton = this.setContentAndIdForListItem(this.createListItem('-1', false), 'prev');
     this._nextButton = this.setContentAndIdForListItem(this.createListItem('+1', false), 'next');
-    this._paginationElement?.children[0].prepend(this._prevButton);
-    this._paginationElement?.children[0].append(this._nextButton);
+    if (this._paginationElement?.children[0] !== undefined) {
+      this._paginationElement?.children[0].prepend(this._prevButton);
+      this._paginationElement?.children[0].append(this._nextButton);
+    }
   }
 
   /**
    * calculateInReach method calculates wether given index is in the range of amount of next and prev items
    * @param {number} index
-   * @returns {boolean} true/false
+   * @returns {boolean}
    */
   calculateInReach(index: number): boolean {
     if (index === this._chunks.length || index === 1) {
@@ -392,7 +401,7 @@ export default class QuickPagination {
    * Shows all page item elements
    */
   showAllPaginationElements() {
-    this._paginationElement?.children[0].childNodes.forEach((element) => {
+    this._paginationElement?.children[0]?.childNodes.forEach((element) => {
       if (element instanceof HTMLElement) {
         element.style.display = 'list-item';
       }
@@ -415,13 +424,16 @@ export default class QuickPagination {
    */
   replaceElementsWithDots(numsBefore: Array<any>, numsAfter: Array<any>) {
     if (numsBefore.length > 0) {
-      this._paginationElement?.children[0].insertBefore(this.createEmptyListItem(), numsBefore[0].parentNode);
+      this._paginationElement?.children[0]?.insertBefore(
+        this.createEmptyListItem(),
+        numsBefore[0].parentNode,
+      );
       for (let i = 0; i < numsBefore.length; i++) {
         numsBefore[i].parentNode.style.display = 'none';
       }
     }
     if (numsAfter.length > 0) {
-      this._paginationElement?.children[0].insertBefore(
+      this._paginationElement?.children[0]?.insertBefore(
         this.createEmptyListItem(),
         numsAfter[numsAfter.length - 1].parentNode,
       );
