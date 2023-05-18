@@ -1,5 +1,0 @@
----
-'quickclasses': patch
----
-
-Proper export
