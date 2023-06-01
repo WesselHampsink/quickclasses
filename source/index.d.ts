@@ -39,11 +39,11 @@ export interface QuickFilterOptions {
   filterRangeInputs: string[] | undefined;
   filterRadioInputs: string[] | undefined;
   filterStartTextInputs: string[] | undefined;
-  resultNumberSelector: string | null;
+  resultNumberSelector: string | undefined;
   noResultMessage: string | undefined;
   showDisplayProperty: CssDisplayProperty;
   hideDisplayProperty: CssDisplayProperty;
-  callBackFunction: ((arg0: QuickFilter) => void) | null;
+  callBackFunction: ((arg0: QuickFilter) => void) | undefined;
   modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | null;
   itemsScope: string | null;
   keyupDebounce: number;

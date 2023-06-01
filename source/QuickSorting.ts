@@ -39,7 +39,7 @@ export default class QuickSorting {
         this._parentElement?.appendChild(ele);
       });
     }
-    if (this._callBackFunction !== undefined) {
+    if (typeof this._callBackFunction !== 'undefined') {
       this._callBackFunction();
     }
   }

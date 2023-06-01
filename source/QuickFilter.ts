@@ -15,11 +15,11 @@ export default class QuickFilter {
   _filterRangeInputs: string[] | undefined;
   _filterRadioInputs: string[] | undefined;
   _filterStartTextInputs: string[] | undefined;
-  _resultNumberSelector!: string | null;
+  _resultNumberSelector!: string | undefined;
   _noResultMessage!: string | null;
   _showDisplayProperty: CssDisplayProperty;
   _hideDisplayProperty: CssDisplayProperty;
-  _callBackFunction!: ((arg0: QuickFilter) => void) | null;
+  _callBackFunction!: ((arg0: QuickFilter) => void) | undefined;
   _modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | undefined;
   _itemsScope!: Document | HTMLElement | null;
   _allResults: NodeListOf<HTMLElement> | undefined;
@@ -40,11 +40,11 @@ export default class QuickFilter {
     filterRangeInputs = undefined,
     filterRadioInputs = undefined,
     filterStartTextInputs = undefined,
-    resultNumberSelector = null,
+    resultNumberSelector = undefined,
     noResultMessage,
     showDisplayProperty = 'block' as CssDisplayProperty,
     hideDisplayProperty = 'none' as CssDisplayProperty,
-    callBackFunction = null,
+    callBackFunction = undefined,
     modifySelectedFunction,
     itemsScope = null,
     keyupDebounce = 200,
@@ -67,7 +67,7 @@ export default class QuickFilter {
       this._noResultMessage = noResultMessage;
     }
     /* Element that displays amount of visible results defaults to null : element */
-    if (resultNumberSelector) {
+    if (typeof resultNumberSelector !== 'undefined') {
       this._counterElement = document.querySelector(resultNumberSelector) ?? null;
     }
     /* Set visible counter to number of result elements : int */
@@ -291,7 +291,7 @@ export default class QuickFilter {
   }
 
   showAmountResults(): number {
-    if (this._counterElement === null) return 0;
+    if (this._counterElement === null || typeof this._counterElement === 'undefined') return 0;
     this._counterElement.textContent = `${this._showCounter}`;
     return this._showCounter;
   }
