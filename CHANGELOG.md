@@ -1,5 +1,11 @@
 # quickclasses
 
+## 2.0.2
+
+### Patch Changes
+
+- 0c150a6: Removing required options
+
 ## 2.0.1
 
 ### Patch Changes
