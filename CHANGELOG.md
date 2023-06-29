@@ -1,5 +1,11 @@
 # quickclasses
 
+## 2.3.0
+
+### Minor Changes
+
+- d2f4e03: Bug fixes, and adding simplicity
+
 ## 2.2.0
 
 ### Minor Changes
