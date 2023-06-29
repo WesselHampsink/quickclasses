@@ -1,5 +1,17 @@
 # quickclasses
 
+## 2.2.0
+
+### Minor Changes
+
+- 037ddc7: Test minor version
+- f43d0b9: Include dist folder
+
+### Patch Changes
+
+- 5ba43ce: Update package definition
+- 0962814: Updated package.json
+
 ## 2.0.2
 
 ### Patch Changes
