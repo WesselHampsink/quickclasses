@@ -1,5 +1,5 @@
 declare class QuickFilter {
-    _elementSelector: string;
+    _itemsSelector: string;
     _filterCheckboxInputs: string[] | undefined;
     _filterSelectInputs: string[] | undefined;
     _filterTextInputs: string[] | undefined;
@@ -12,7 +12,7 @@ declare class QuickFilter {
     _hideDisplayProperty: CssDisplayProperty;
     _callBackFunction: ((arg0: QuickFilter) => void) | undefined;
     _modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | undefined;
-    _itemsScope: Document | HTMLElement | null;
+    _itemsScope: Document | Element | null;
     _allResults: NodeListOf<HTMLElement> | undefined;
     _noResult: HTMLElement | null;
     _counterElement: HTMLElement | null;
@@ -22,7 +22,7 @@ declare class QuickFilter {
     _allFilters: QuickFilterObject;
     _keyupDebounce: number;
     _allShown: HTMLElement[];
-    constructor({ elementSelector, filterCheckboxInputs, filterSelectInputs, filterTextInputs, filterRangeInputs, filterRadioInputs, filterStartTextInputs, resultNumberSelector, noResultMessage, showDisplayProperty, hideDisplayProperty, callBackFunction, modifySelectedFunction, itemsScope, keyupDebounce, }: QuickFilterOptions);
+    constructor({ itemsSelector, filterCheckboxInputs, filterSelectInputs, filterTextInputs, filterRangeInputs, filterRadioInputs, filterStartTextInputs, resultNumberSelector, noResultMessage, showDisplayProperty, hideDisplayProperty, callBackFunction, modifySelectedFunction, itemsScope, keyupDebounce, }: QuickFilterOptions);
     /**
      * Debounces input events, to prevent firing on every single keystroke
      * @param {function} callback
@@ -81,7 +81,7 @@ type CssDisplayProperty =
   | 'unset';
 
 interface QuickFilterOptions {
-  elementSelector: string;
+  itemsSelector: string;
   filterCheckboxInputs: string[] | undefined;
   filterSelectInputs: string[] | undefined;
   filterTextInputs: string[] | undefined;
@@ -94,7 +94,7 @@ interface QuickFilterOptions {
   hideDisplayProperty: CssDisplayProperty;
   callBackFunction: ((arg0: QuickFilter) => void) | undefined;
   modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | null;
-  itemsScope: string | null;
+  itemsScope: string | null | Document;
   keyupDebounce: number;
 }
 
@@ -124,7 +124,7 @@ type QuickSortingOptions = {
 };
 
 interface QuickPaginationOptions {
-  pagesTarget: string;
+  pagesTarget: string | null;
   itemsPerPage: number;
   itemsSelector: string;
   paginationSelector: string;

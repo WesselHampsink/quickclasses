@@ -1,7 +1,7 @@
 // source/QuickFilter.ts
 var QuickFilter = class {
   constructor({
-    elementSelector = "[data-index]",
+    itemsSelector = "[data-index]",
     filterCheckboxInputs = void 0,
     filterSelectInputs = void 0,
     filterTextInputs = void 0,
@@ -14,7 +14,7 @@ var QuickFilter = class {
     hideDisplayProperty = "none",
     callBackFunction = void 0,
     modifySelectedFunction,
-    itemsScope = null,
+    itemsScope = document,
     keyupDebounce = 200
   }) {
     this._allShown = [];
@@ -33,24 +33,24 @@ var QuickFilter = class {
     };
     var _a, _b, _c, _d, _e;
     this._allFilters = {};
-    this._elementSelector = elementSelector;
+    this._itemsSelector = itemsSelector;
     this._showDisplayProperty = showDisplayProperty;
     this._hideDisplayProperty = hideDisplayProperty;
-    if (itemsScope === null) {
-      this._itemsScope = document;
-    } else if (document.querySelector(itemsScope)) {
-      this._itemsScope = document.querySelector(itemsScope);
+    this._counterElement = null;
+    if (typeof resultNumberSelector !== "undefined") {
+      this._counterElement = document.querySelector(resultNumberSelector) || null;
+    }
+    this._itemsScope = typeof itemsScope === "string" ? document.querySelector(itemsScope) : itemsScope;
+    this._allResults = (_a = this._itemsScope) == null ? void 0 : _a.querySelectorAll(this._itemsSelector);
+    if (((_b = this._allResults) == null ? void 0 : _b.length) === 0 || this._allResults === void 0)
+      return;
+    if (itemsScope === document || itemsScope === null) {
+      this._itemsScope = (_c = this._allResults[0]) == null ? void 0 : _c.parentNode;
     }
     if (typeof this._itemsScope === "undefined")
       return;
-    this._allResults = (_a = this._itemsScope) == null ? void 0 : _a.querySelectorAll(this._elementSelector);
-    if (((_b = this._allResults) == null ? void 0 : _b.length) === 0)
-      return;
     if (noResultMessage) {
       this._noResultMessage = noResultMessage;
-    }
-    if (typeof resultNumberSelector !== "undefined") {
-      this._counterElement = (_c = document.querySelector(resultNumberSelector)) != null ? _c : null;
     }
     this._showCounter = Number((_d = this._allResults) == null ? void 0 : _d.length);
     this._allInputs = (_e = document.querySelectorAll("[data-filter]")) != null ? _e : null;
@@ -328,6 +328,7 @@ var QuickFilter = class {
     }
   }
 };
+var QuickFilter_default = QuickFilter;
 
 // source/QuickFilterCounter.ts
 var QuickFilterCounter = class {
@@ -443,7 +444,7 @@ var QuickPagination = class {
    * @param {object} {] object of options
    */
   constructor({
-    pagesTarget,
+    pagesTarget = null,
     itemsPerPage = 5,
     itemsSelector = "[data-index]",
     paginationSelector = "#pagination",
@@ -456,12 +457,12 @@ var QuickPagination = class {
   }) {
     this._chunks = [];
     this._visItems = [];
-    var _a;
+    var _a, _b, _c;
     this._chunks = [];
     this._perPage = itemsPerPage;
     this._itemsSelector = itemsSelector;
-    this._pagesTarget = document.querySelector(pagesTarget);
-    this._paginationElement = document.querySelector(paginationSelector);
+    this._pagesTarget = pagesTarget !== null ? document.querySelector(pagesTarget) : null;
+    this._paginationElement = (_a = document.querySelector(paginationSelector)) != null ? _a : null;
     this._nextPrevButtons = nextPrevButtons;
     this._pageDisplay = pageDisplayProperty;
     this._currentPage = 1;
@@ -471,11 +472,27 @@ var QuickPagination = class {
     this._contentPrevButton = contentPrevButton;
     this._contentNextButton = contentNextButton;
     this._pageClasses = pageClasses;
-    const parentElement = (_a = document == null ? void 0 : document.querySelector(this._itemsSelector)) == null ? void 0 : _a.parentElement;
+    const parentElement = (_b = document == null ? void 0 : document.querySelector(this._itemsSelector)) == null ? void 0 : _b.parentElement;
     if ((parentElement == null ? void 0 : parentElement.style) !== void 0) {
       parentElement.style.display = "none";
     }
+    if (this._pagesTarget === null) {
+      const pagesTarget2 = document.createElement("div");
+      pagesTarget2.setAttribute("id", "pages");
+      (_c = parentElement == null ? void 0 : parentElement.parentNode) == null ? void 0 : _c.insertBefore(pagesTarget2, parentElement);
+      this._pagesTarget = pagesTarget2;
+    }
+    if (this._paginationElement === null) {
+      const paginationElement = document.createElement("nav");
+      paginationElement.setAttribute("id", "pagination");
+      this.insertAfter(paginationElement, this._pagesTarget);
+      this._paginationElement = paginationElement;
+    }
     this.init();
+  }
+  insertAfter(newNode, existingNode) {
+    var _a;
+    (_a = existingNode == null ? void 0 : existingNode.parentNode) == null ? void 0 : _a.insertBefore(newNode, existingNode.nextSibling);
   }
   /**
    * init method to fire all methods
@@ -889,11 +906,11 @@ var QuickSorting = class {
     this._sortSelect = document.querySelector(sortSelectSelector);
     if (this._sortSelect === null)
       return;
-    if (parentElement === null)
-      return;
-    this._parentElement = document.querySelector(parentElement);
-    if (this._parentElement === null && ((_a = this._elements[0]) == null ? void 0 : _a.parentElement) !== void 0)
+    if (parentElement === null && ((_a = this._elements[0]) == null ? void 0 : _a.parentElement) !== void 0) {
       this._parentElement = this._elements[0].parentElement;
+    } else if (parentElement !== null) {
+      this._parentElement = document.querySelector(parentElement);
+    }
     this._callBackFunction = callBackFunction;
     this.appendEvent();
     this._selectedValue = {
@@ -947,32 +964,41 @@ var QuickSorting = class {
     let searchKey = this._selectedValue.key;
     let sortOrder = this._selectedValue.order;
     let type = this._selectedValue.type;
-    if (this._elements instanceof Array) {
+    if (this._elements instanceof NodeList) {
       return Array.from(this._elements).sort((a, b) => {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b;
+        if (!(a instanceof HTMLElement && b instanceof HTMLElement))
+          return 0;
         if (searchKey === "random") {
           return 0.5 - Math.random();
         }
+        const aData = (_a = a.dataset) == null ? void 0 : _a[searchKey];
+        const bData = (_b = b.dataset) == null ? void 0 : _b[searchKey];
+        if (aData === void 0 || bData === void 0)
+          return 0;
         if (type === "CHAR") {
           if (sortOrder === "ASC") {
-            return (_b = a.dataset) == null ? void 0 : _b[searchKey].localeCompare((_a = b.dataset) == null ? void 0 : _a[searchKey]);
+            return aData.localeCompare(bData);
           } else {
-            return (_d = b.dataset) == null ? void 0 : _d[searchKey].localeCompare((_c = a.dataset) == null ? void 0 : _c[searchKey]);
+            if (!a.dataset || !b.dataset)
+              return 0;
+            return bData.localeCompare(aData);
           }
         } else if (type === "NUM") {
           if (sortOrder === "ASC") {
-            return parseFloat((_e = a.dataset) == null ? void 0 : _e[searchKey]) - parseFloat((_f = b.dataset) == null ? void 0 : _f[searchKey]);
+            return parseFloat(aData) - parseFloat(bData);
           } else {
-            return parseFloat((_g = b.dataset) == null ? void 0 : _g[searchKey]) - parseFloat((_h = a.dataset) == null ? void 0 : _h[searchKey]);
+            return parseFloat(bData) - parseFloat(aData);
           }
         }
+        return 0;
       });
     }
     return [];
   }
 };
 export {
-  QuickFilter,
+  QuickFilter_default as QuickFilter,
   QuickFilterCounter,
   QuickPagination,
   QuickSorting

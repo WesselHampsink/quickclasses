@@ -24,7 +24,7 @@ export default class QuickPagination {
    * @param {object} {] object of options
    */
   constructor({
-    pagesTarget,
+    pagesTarget = null,
     itemsPerPage = 5,
     itemsSelector = '[data-index]',
     paginationSelector = '#pagination',
@@ -38,8 +38,8 @@ export default class QuickPagination {
     this._chunks = [];
     this._perPage = itemsPerPage;
     this._itemsSelector = itemsSelector;
-    this._pagesTarget = document.querySelector(pagesTarget);
-    this._paginationElement = document.querySelector(paginationSelector);
+    this._pagesTarget = pagesTarget !== null ? document.querySelector(pagesTarget) : null;
+    this._paginationElement = document.querySelector(paginationSelector) ?? null;
     this._nextPrevButtons = nextPrevButtons;
     this._pageDisplay = pageDisplayProperty;
     this._currentPage = 1;
@@ -53,9 +53,23 @@ export default class QuickPagination {
     if (parentElement?.style !== undefined) {
       parentElement.style.display = 'none';
     }
+    if (this._pagesTarget === null) {
+      const pagesTarget = document.createElement('div');
+      pagesTarget.setAttribute('id', 'pages');
+      parentElement?.parentNode?.insertBefore(pagesTarget, parentElement);
+      this._pagesTarget = pagesTarget;
+    }
+    if (this._paginationElement === null) {
+      const paginationElement = document.createElement('nav');
+      paginationElement.setAttribute('id', 'pagination');
+      this.insertAfter(paginationElement, this._pagesTarget);
+      this._paginationElement = paginationElement;
+    }
     this.init();
   }
-
+  private insertAfter(newNode: HTMLElement, existingNode: HTMLElement) {
+    existingNode?.parentNode?.insertBefore(newNode, existingNode.nextSibling);
+  }
   /**
    * init method to fire all methods
    */

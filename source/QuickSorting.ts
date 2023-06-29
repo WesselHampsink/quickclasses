@@ -16,10 +16,11 @@ export default class QuickSorting {
     if (this._elements === null) return;
     this._sortSelect = document.querySelector(sortSelectSelector);
     if (this._sortSelect === null) return;
-    if (parentElement === null) return;
-    this._parentElement = document.querySelector(parentElement);
-    if (this._parentElement === null && this._elements[0]?.parentElement !== undefined)
+    if (parentElement === null && this._elements[0]?.parentElement !== undefined) {
       this._parentElement = this._elements[0].parentElement;
+    } else if (parentElement !== null) {
+      this._parentElement = document.querySelector(parentElement);
+    }
     this._callBackFunction = callBackFunction;
     this.appendEvent();
     this._selectedValue = {
@@ -70,24 +71,30 @@ export default class QuickSorting {
     let searchKey = this._selectedValue.key;
     let sortOrder = this._selectedValue.order;
     let type = this._selectedValue.type;
-    if (this._elements instanceof Array) {
+    if (this._elements instanceof NodeList) {
       return Array.from(this._elements).sort((a, b) => {
+        if (!(a instanceof HTMLElement && b instanceof HTMLElement)) return 0;
         if (searchKey === 'random') {
           return 0.5 - Math.random();
         }
+        const aData = a.dataset?.[searchKey];
+        const bData = b.dataset?.[searchKey];
+        if (aData === undefined || bData === undefined) return 0;
         if (type === 'CHAR') {
           if (sortOrder === 'ASC') {
-            return a.dataset?.[searchKey].localeCompare(b.dataset?.[searchKey]);
+            return aData.localeCompare(bData);
           } else {
-            return b.dataset?.[searchKey].localeCompare(a.dataset?.[searchKey]);
+            if (!a.dataset || !b.dataset) return 0;
+            return bData.localeCompare(aData);
           }
         } else if (type === 'NUM') {
           if (sortOrder === 'ASC') {
-            return parseFloat(a.dataset?.[searchKey]) - parseFloat(b.dataset?.[searchKey]);
+            return parseFloat(aData) - parseFloat(bData);
           } else {
-            return parseFloat(b.dataset?.[searchKey]) - parseFloat(a.dataset?.[searchKey]);
+            return parseFloat(bData) - parseFloat(aData);
           }
         }
+        return 0;
       });
     }
     return [];

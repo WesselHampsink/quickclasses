@@ -32,7 +32,7 @@ export type CssDisplayProperty =
   | 'unset';
 
 export interface QuickFilterOptions {
-  elementSelector: string;
+  itemsSelector: string;
   filterCheckboxInputs: string[] | undefined;
   filterSelectInputs: string[] | undefined;
   filterTextInputs: string[] | undefined;
@@ -45,7 +45,7 @@ export interface QuickFilterOptions {
   hideDisplayProperty: CssDisplayProperty;
   callBackFunction: ((arg0: QuickFilter) => void) | undefined;
   modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | null;
-  itemsScope: string | null;
+  itemsScope: string | null | Document;
   keyupDebounce: number;
 }
 
@@ -75,7 +75,7 @@ export type QuickSortingOptions = {
 };
 
 export interface QuickPaginationOptions {
-  pagesTarget: string;
+  pagesTarget: string | null;
   itemsPerPage: number;
   itemsSelector: string;
   paginationSelector: string;

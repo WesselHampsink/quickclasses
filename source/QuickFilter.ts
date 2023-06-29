@@ -7,8 +7,8 @@ import {
   QuickFilterOptions,
 } from './index';
 
-export default class QuickFilter {
-  _elementSelector: string;
+class QuickFilter {
+  _itemsSelector: string;
   _filterCheckboxInputs: string[] | undefined;
   _filterSelectInputs: string[] | undefined;
   _filterTextInputs: string[] | undefined;
@@ -21,10 +21,10 @@ export default class QuickFilter {
   _hideDisplayProperty: CssDisplayProperty;
   _callBackFunction!: ((arg0: QuickFilter) => void) | undefined;
   _modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | undefined;
-  _itemsScope!: Document | HTMLElement | null;
+  _itemsScope!: Document | Element | null;
   _allResults: NodeListOf<HTMLElement> | undefined;
   _noResult!: HTMLElement | null;
-  _counterElement!: HTMLElement | null;
+  _counterElement: HTMLElement | null;
   _showCounter!: number;
   _allInputs!: NodeListOf<HTMLInputElement> | NodeListOf<HTMLSelectElement> | null;
   _allDataSets: DOMStringMap[] | undefined;
@@ -33,7 +33,7 @@ export default class QuickFilter {
   _allShown: HTMLElement[] = [];
 
   constructor({
-    elementSelector = '[data-index]',
+    itemsSelector = '[data-index]',
     filterCheckboxInputs = undefined,
     filterSelectInputs = undefined,
     filterTextInputs = undefined,
@@ -46,29 +46,29 @@ export default class QuickFilter {
     hideDisplayProperty = 'none' as CssDisplayProperty,
     callBackFunction = undefined,
     modifySelectedFunction,
-    itemsScope = null,
+    itemsScope = document,
     keyupDebounce = 200,
   }: QuickFilterOptions) {
     this._allFilters = {};
-    this._elementSelector = elementSelector;
+    this._itemsSelector = itemsSelector;
     /* Set display property of hide and visible defaults to none and block : string */
     this._showDisplayProperty = showDisplayProperty;
     this._hideDisplayProperty = hideDisplayProperty;
-    if (itemsScope === null) {
-      this._itemsScope = document;
-    } else if (document.querySelector(itemsScope)) {
-      this._itemsScope = document.querySelector(itemsScope) as HTMLElement;
+    /* Element that displays amount of visible results defaults to null : element */
+    this._counterElement = null;
+    if (typeof resultNumberSelector !== 'undefined') {
+      this._counterElement = document.querySelector(resultNumberSelector) || null;
+    }
+    this._itemsScope = typeof itemsScope === 'string' ? document.querySelector(itemsScope) : itemsScope;
+    this._allResults = this._itemsScope?.querySelectorAll(this._itemsSelector);
+    if (this._allResults?.length === 0 || this._allResults === undefined) return;
+    if (itemsScope === document || itemsScope === null) {
+      this._itemsScope = this._allResults[0]?.parentNode as HTMLElement;
     }
     if (typeof this._itemsScope === 'undefined') return;
-    this._allResults = this._itemsScope?.querySelectorAll(this._elementSelector);
-    if (this._allResults?.length === 0) return;
     /* Element to display when no element meets the filter criteria defaults to null : element */
     if (noResultMessage) {
       this._noResultMessage = noResultMessage;
-    }
-    /* Element that displays amount of visible results defaults to null : element */
-    if (typeof resultNumberSelector !== 'undefined') {
-      this._counterElement = document.querySelector(resultNumberSelector) ?? null;
     }
     /* Set visible counter to number of result elements : int */
     this._showCounter = Number(this._allResults?.length);
@@ -379,3 +379,5 @@ export default class QuickFilter {
     }
   }
 }
+
+export default QuickFilter;
