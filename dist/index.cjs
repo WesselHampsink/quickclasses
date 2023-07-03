@@ -31,6 +31,7 @@ module.exports = __toCommonJS(source_exports);
 var QuickFilter = class {
   constructor({
     itemsSelector = "[data-index]",
+    elementSelector = "[data-index]",
     filterCheckboxInputs = void 0,
     filterSelectInputs = void 0,
     filterTextInputs = void 0,
@@ -62,7 +63,7 @@ var QuickFilter = class {
     };
     var _a, _b, _c, _d, _e;
     this._allFilters = {};
-    this._itemsSelector = itemsSelector;
+    this._itemsSelector = itemsSelector ? itemsSelector : elementSelector;
     this._showDisplayProperty = showDisplayProperty;
     this._hideDisplayProperty = hideDisplayProperty;
     this._counterElement = null;

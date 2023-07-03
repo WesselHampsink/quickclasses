@@ -33,6 +33,7 @@ export type CssDisplayProperty =
 
 export interface QuickFilterOptions {
   itemsSelector: string;
+  elementSelector: string | undefined;
   filterCheckboxInputs: string[] | undefined;
   filterSelectInputs: string[] | undefined;
   filterTextInputs: string[] | undefined;
@@ -86,3 +87,5 @@ export interface QuickPaginationOptions {
   pageClasses: string[];
   amountOfPrevNextItems: number;
 }
+
+export { QuickFilter, QuickFilterCounter, QuickPagination, QuickSorting };

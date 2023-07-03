@@ -34,6 +34,7 @@ class QuickFilter {
 
   constructor({
     itemsSelector = '[data-index]',
+    elementSelector = '[data-index]',
     filterCheckboxInputs = undefined,
     filterSelectInputs = undefined,
     filterTextInputs = undefined,
@@ -50,7 +51,7 @@ class QuickFilter {
     keyupDebounce = 200,
   }: QuickFilterOptions) {
     this._allFilters = {};
-    this._itemsSelector = itemsSelector;
+    this._itemsSelector = itemsSelector ? itemsSelector : elementSelector;
     /* Set display property of hide and visible defaults to none and block : string */
     this._showDisplayProperty = showDisplayProperty;
     this._hideDisplayProperty = hideDisplayProperty;
