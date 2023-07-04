@@ -1,5 +1,12 @@
 # quickclasses
 
+## 2.3.1
+
+### Patch Changes
+
+- 4273d3a: Include export of QuickFilter, QuickPagination, QuickSorting and QuickFilterCounter
+- f8969d1: Update no results option
+
 ## 2.3.0
 
 ### Minor Changes
