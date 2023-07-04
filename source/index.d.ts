@@ -69,7 +69,8 @@ export type QuickSortingSelected = {
 };
 
 export type QuickSortingOptions = {
-  elementsSelector: string;
+  itemsSelector: string | undefined;
+  elementsSelector: string | undefined;
   sortSelectSelector: string;
   parentElement: null | string;
   callBackFunction: undefined | (() => void);

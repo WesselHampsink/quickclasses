@@ -39,7 +39,7 @@ var QuickFilter = class {
     filterRadioInputs = void 0,
     filterStartTextInputs = void 0,
     resultNumberSelector = void 0,
-    noResultMessage,
+    noResultMessage = void 0,
     showDisplayProperty = "block",
     hideDisplayProperty = "none",
     callBackFunction = void 0,
@@ -61,7 +61,7 @@ var QuickFilter = class {
         debounceTimer = window.setTimeout(callback.bind(null), time);
       };
     };
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d, _e, _f;
     this._allFilters = {};
     this._itemsSelector = itemsSelector ? itemsSelector : elementSelector;
     this._showDisplayProperty = showDisplayProperty;
@@ -80,10 +80,10 @@ var QuickFilter = class {
     if (typeof this._itemsScope === "undefined")
       return;
     if (noResultMessage) {
-      this._noResultMessage = noResultMessage;
+      this._noResult = ((_d = this._itemsScope) == null ? void 0 : _d.querySelector(noResultMessage)) || void 0;
     }
-    this._showCounter = Number((_d = this._allResults) == null ? void 0 : _d.length);
-    this._allInputs = (_e = document.querySelectorAll("[data-filter]")) != null ? _e : null;
+    this._showCounter = Number((_e = this._allResults) == null ? void 0 : _e.length);
+    this._allInputs = (_f = document.querySelectorAll("[data-filter]")) != null ? _f : null;
     if (typeof filterCheckboxInputs !== "undefined") {
       this._filterCheckboxInputs = filterCheckboxInputs;
     }
@@ -143,7 +143,7 @@ var QuickFilter = class {
   /* Hide all filterable elements */
   hideAll() {
     var _a;
-    if (this._noResult != null) {
+    if (this._noResult !== void 0) {
       this._noResult.style.display = this._hideDisplayProperty;
     }
     (_a = this._allResults) == null ? void 0 : _a.forEach((resultElement) => resultElement.style.display = this._hideDisplayProperty);
@@ -151,7 +151,7 @@ var QuickFilter = class {
   }
   /* Show no result messag */
   showNoResultMessage() {
-    if (this._noResult === null)
+    if (this._noResult === void 0)
       return;
     this._noResult.style.display = this._showDisplayProperty;
   }
@@ -924,13 +924,14 @@ var QuickPagination = class {
 // source/QuickSorting.ts
 var QuickSorting = class {
   constructor({
+    itemsSelector = "[data-index]",
     elementsSelector = "[data-index]",
     sortSelectSelector = 'select[name="sort"]',
     parentElement = null,
     callBackFunction = void 0
   }) {
     var _a, _b, _c, _d, _e, _f, _g;
-    this._elements = document.querySelectorAll(elementsSelector);
+    this._elements = document.querySelectorAll(itemsSelector) ? document.querySelectorAll(itemsSelector) : document.querySelectorAll(elementsSelector);
     if (this._elements === null)
       return;
     this._sortSelect = document.querySelector(sortSelectSelector);

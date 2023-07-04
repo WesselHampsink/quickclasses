@@ -7,12 +7,15 @@ export default class QuickSorting {
   _callBackFunction: (() => void) | undefined;
   _selectedValue!: QuickSortingSelected;
   constructor({
+    itemsSelector = '[data-index]',
     elementsSelector = '[data-index]',
     sortSelectSelector = 'select[name="sort"]',
     parentElement = null,
     callBackFunction = undefined,
   }: QuickSortingOptions) {
-    this._elements = document.querySelectorAll(elementsSelector);
+    this._elements = document.querySelectorAll(itemsSelector)
+      ? document.querySelectorAll(itemsSelector)
+      : document.querySelectorAll(elementsSelector);
     if (this._elements === null) return;
     this._sortSelect = document.querySelector(sortSelectSelector);
     if (this._sortSelect === null) return;

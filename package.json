@@ -4,8 +4,8 @@
   "description": "Classes that filter, sort and create pagination for your page. Easy to use and very fast!",
   "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "source"

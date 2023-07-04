@@ -7,14 +7,13 @@ declare class QuickFilter {
     _filterRadioInputs: string[] | undefined;
     _filterStartTextInputs: string[] | undefined;
     _resultNumberSelector: string | undefined;
-    _noResultMessage: string | null;
     _showDisplayProperty: CssDisplayProperty;
     _hideDisplayProperty: CssDisplayProperty;
     _callBackFunction: ((arg0: QuickFilter) => void) | undefined;
     _modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | undefined;
     _itemsScope: Document | Element | null;
     _allResults: NodeListOf<HTMLElement> | undefined;
-    _noResult: HTMLElement | null;
+    _noResult: HTMLElement | undefined;
     _counterElement: HTMLElement | null;
     _showCounter: number;
     _allInputs: NodeListOf<HTMLInputElement> | NodeListOf<HTMLSelectElement> | null;
@@ -237,7 +236,7 @@ declare class QuickSorting {
     _parentElement: HTMLElement | null;
     _callBackFunction: (() => void) | undefined;
     _selectedValue: QuickSortingSelected;
-    constructor({ elementsSelector, sortSelectSelector, parentElement, callBackFunction, }: QuickSortingOptions);
+    constructor({ itemsSelector, elementsSelector, sortSelectSelector, parentElement, callBackFunction, }: QuickSortingOptions);
     /**
      * Initialize quicksorting, use this function to sort all
      */
@@ -324,7 +323,8 @@ type QuickSortingSelected = {
 };
 
 type QuickSortingOptions = {
-  elementsSelector: string;
+  itemsSelector: string | undefined;
+  elementsSelector: string | undefined;
   sortSelectSelector: string;
   parentElement: null | string;
   callBackFunction: undefined | (() => void);

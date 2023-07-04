@@ -16,14 +16,13 @@ class QuickFilter {
   _filterRadioInputs: string[] | undefined;
   _filterStartTextInputs: string[] | undefined;
   _resultNumberSelector!: string | undefined;
-  _noResultMessage!: string | null;
   _showDisplayProperty: CssDisplayProperty;
   _hideDisplayProperty: CssDisplayProperty;
   _callBackFunction!: ((arg0: QuickFilter) => void) | undefined;
   _modifySelectedFunction: ((object: QuickFilterObject) => QuickFilterObject) | undefined;
   _itemsScope!: Document | Element | null;
   _allResults: NodeListOf<HTMLElement> | undefined;
-  _noResult!: HTMLElement | null;
+  _noResult: HTMLElement | undefined;
   _counterElement: HTMLElement | null;
   _showCounter!: number;
   _allInputs!: NodeListOf<HTMLInputElement> | NodeListOf<HTMLSelectElement> | null;
@@ -42,7 +41,7 @@ class QuickFilter {
     filterRadioInputs = undefined,
     filterStartTextInputs = undefined,
     resultNumberSelector = undefined,
-    noResultMessage,
+    noResultMessage = undefined,
     showDisplayProperty = 'block' as CssDisplayProperty,
     hideDisplayProperty = 'none' as CssDisplayProperty,
     callBackFunction = undefined,
@@ -69,7 +68,7 @@ class QuickFilter {
     if (typeof this._itemsScope === 'undefined') return;
     /* Element to display when no element meets the filter criteria defaults to null : element */
     if (noResultMessage) {
-      this._noResultMessage = noResultMessage;
+      this._noResult = this._itemsScope?.querySelector(noResultMessage) || undefined;
     }
     /* Set visible counter to number of result elements : int */
     this._showCounter = Number(this._allResults?.length);
@@ -160,7 +159,7 @@ class QuickFilter {
 
   /* Hide all filterable elements */
   hideAll() {
-    if (this._noResult != null) {
+    if (this._noResult !== undefined) {
       this._noResult.style.display = this._hideDisplayProperty;
     }
     this._allResults?.forEach((resultElement) => (resultElement.style.display = this._hideDisplayProperty));
@@ -169,7 +168,7 @@ class QuickFilter {
 
   /* Show no result messag */
   showNoResultMessage() {
-    if (this._noResult === null) return;
+    if (this._noResult === undefined) return;
     this._noResult.style.display = this._showDisplayProperty;
   }
 
