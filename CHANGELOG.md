@@ -1,5 +1,11 @@
 # quickclasses
 
+## 2.3.2
+
+### Patch Changes
+
+- 1030644: Update no results message option
+
 ## 2.3.1
 
 ### Patch Changes
