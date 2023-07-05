@@ -1,6 +1,6 @@
 {
   "name": "quickclasses",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Classes that filter, sort and create pagination for your page. Easy to use and very fast!",
   "type": "module",
   "main": "dist/index.js",
