@@ -68,33 +68,35 @@ The default options object for the QuickFilter class is:
 
 ```javascript
 {
-  (elementSelector = '[data-index]'),
-    (filterCheckboxInputs = []),
-    (filterSelectInputs = []),
-    (filterTextInputs = []),
-    (filterRangeInputs = []),
-    (filterRadioInputs = []),
-    (filterStartTextInputs = []),
-    (resultNumberSelector = null),
-    (noResultMessage = null),
-    (showDisplayProperty = 'block'),
-    (hideDisplayProperty = 'none'),
-    (callBackFunction = null),
-    (modifySelectedFunction = null),
-    (itemsScope = null);
+  itemsSelector: '[data-index]',
+  /* Deprecated */ elementSelector: '[data-index]',
+  filterCheckboxInputs: undefined,
+  filterSelectInputs: undefined,
+  filterTextInputs: undefined,
+  filterRangeInputs: undefined,
+  filterRadioInputs: undefined,
+  filterStartTextInputs: undefined,
+  resultNumberSelector: undefined,
+  noResultMessage: undefined,
+  showDisplayProperty: 'block' as CssDisplayProperty,
+  hideDisplayProperty: 'none' as CssDisplayProperty,
+  callBackFunction: undefined,
+  modifySelectedFunction,
+  itemsScope: document,
+  keyupDebounce: 200,
 }
 ```
 
 For individual explanation of each option, please read the documentation carefully.
 
-- `elementSelector`
+- `itemsSelector`
   string String that will be used in a querySelectorAll to select the filterable items, defaults to `'[data-index]'`, every element that contains a `data-index` attribute.
 
-`filterCheckboxInputs`
-array Array of `input[type="checkbox"]` elements's `data-filter` attribute you want to use as a filter, array must contain string values of the `data-filter` attribute. Defaults to an empty array. Filter will refresh on every change of a `input[type="checkbox"]`.
+- `filterCheckboxInputs`
+  array Array of `input[type="checkbox"]` elements's `data-filter` attribute you want to use as a filter, array must contain string values of the `data-filter` attribute. Defaults to an empty array. Filter will refresh on every change of a `input[type="checkbox"]`.
 
-`filterSelectInputs`
-array Array of select elements's `data-filter` attribute you want to use as a filter, array must contain string values of the `data-filter` attribute of the `select` element. Defaults to empty array. Filter will refresh every on every change of the `select` element.
+- `filterSelectInputs`
+  array Array of select elements's `data-filter` attribute you want to use as a filter, array must contain string values of the `data-filter` attribute of the `select` element. Defaults to empty array. Filter will refresh every on every change of the `select` element.
 
 - `filterTextInputs`
   array Array of `input[type="text"]` elements's data-filter attribute you want to use as a filter, array must contain string values of the `data-filter` attribute of the `input[type="text"]` element. Defaults to empty array. _Filter will refresh on every keyup event of the `input`._
@@ -152,7 +154,10 @@ const filterClass = new QuickFilter({
 ```
 
 - `itemsScope`
-  `string` String of querySelector of in which all filterable items are located. Please use this option when also using QuickPagination, that way the QuickFilter class only filters items within scopes, and not the clones in the pages from QuickPagination. Defaults to null, which will means that the document will be used to select the filterable items from.
+  `string` String of querySelector of in which all filterable items are located. Please use this option when also using QuickPagination, that way the QuickFilter class only filters items within scopes, and not the clones in the pages from QuickPagination. Defaults to parent of the items that are found, which will means that the document will be used to select the filterable items from.
+
+- `keyupDebounce`
+  `int` Defaults to 200 ms. Amount of miliseconds that have to be debounced before filtering via a text or search input.
 
 # new QuickPagination({options})
 
@@ -184,22 +189,22 @@ The default options object for the `QuickPagination` class is:
 
 ```javascript
 {
-  pagesTarget,
-    (itemsPerPage = 5),
-    (itemsSelector = '[data-index]'),
-    (paginationSelector = '#pagination'),
-    (pageDisplayProperty = 'block'),
-    (nextPrevButtons = false),
-    (contentPrevButton = 'Previous'),
-    (contentNextButton = 'Next'),
-    (pageClasses = ['page', 'row']),
-    (amountOfPrevNextItems = 1);
+  pagesTarget: null,
+  itemsPerPage: 5,
+  itemsSelector: '[data-index]',
+  paginationSelector: '#pagination',
+  pageDisplayProperty: 'block',
+  nextPrevButtons: false,
+  contentPrevButton: 'Previous',
+  contentNextButton: 'Next',
+  pageClasses: ['page', 'row'],
+  amountOfPrevNextItems: 1,
 }
 ```
 
 For an individual explanation of each option, please read the documentation carefully.
 
-- `pagesTarget *`: String that will be used in a querySelector to define where the items and pagination will be displayed. (Required option)
+- `pagesTarget`: String that will be used in a querySelector to define where the items and pagination will be displayed. If not supplied a new element with the id of pages will be created before the parent of the itemsSelector.
 - `itemsPerPage`: Number of items to show per page. Defaults to 5.
 - `itemsSelector`: String that will be used in a querySelector that defines which items to use in the pagination lists. It is recommended to place your paginatable items in a defined element. Items will be duplicated to create pages; therefore, the original items will be hidden. Defaults to `[data-index]`.
 - `paginationSelector`: String that will be used in a querySelector. In this element, the pagination links will be created. This element has to be outside the `pagesTarget`. Defaults to `#pagination`.
@@ -352,6 +357,42 @@ const filterClass = new QuickFilter({
   callBackFunction: (QuickFilterClass) => {
     filterCounter.init(QuickFilterClass);
   },
+});
+```
+
+## Hooking up QuickFilter, QuickPagination and QuickSorting
+
+The QuickClasses all work together and it is quite easy to hook them up together, here's a how to.
+
+- Using QuickFilter and QuickPagination
+  Simply call the init method on the pagination class instance in the QuickFilter callBackFunction option.
+
+```javascript
+const pagination = new QuickPagination({...});
+new QuickFilter({
+  ...
+  callBackFunction: (filterClass) => {
+    pagination.init();
+  }
+});
+```
+
+- Using QuickFilter, QuickPagination and QuickSorting
+  Simply call the init method on the pagination class instance in the QuickFilter and QuickSorting callBackFunction option.
+
+```javascript
+const pagination = new QuickPagination({...});
+new QuickFilter({
+  ...
+  callBackFunction: (filterClass) => {
+    pagination.init();
+  }
+});
+new QuickSorting({
+  ...
+  callBackFunction: (filterClass) => {
+    pagination.init();
+  }
 });
 ```
 

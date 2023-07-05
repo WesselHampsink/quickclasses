@@ -57,7 +57,7 @@ declare class QuickFilterCounter {
     _counterClass: string;
     _QuickFilterClass: QuickFilter;
     _allFilters: QuickFilterObject;
-    _oldFilters: QuickFilterObject;
+    _oldFilters: QuickFilterObject | string;
     _allInputs: NodeListOf<HTMLInputElement> | NodeListOf<HTMLSelectElement> | null;
     _allResults: NodeListOf<HTMLElement> | undefined;
     _allShown: HTMLElement[];

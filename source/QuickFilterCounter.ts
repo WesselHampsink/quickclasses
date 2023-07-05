@@ -7,7 +7,7 @@ export default class QuickFilterCounter {
   _counterClass: string;
   _QuickFilterClass!: QuickFilter;
   _allFilters: QuickFilterObject;
-  _oldFilters!: QuickFilterObject;
+  _oldFilters!: QuickFilterObject | string;
   _allInputs!: NodeListOf<HTMLInputElement> | NodeListOf<HTMLSelectElement> | null;
   _allResults!: NodeListOf<HTMLElement> | undefined;
   _allShown: HTMLElement[] = [];
@@ -53,12 +53,11 @@ export default class QuickFilterCounter {
   }
 
   resultsWhenCheckedSelect(select: HTMLSelectElement, option: HTMLOptionElement): number {
-    this._oldFilters = JSON.parse(JSON.stringify(this._QuickFilterClass._allFilters));
+    this._oldFilters = JSON.stringify(this._QuickFilterClass._allFilters);
     const filterKey = select.dataset?.filter;
     if (filterKey === undefined) return 0;
     const filterValue = option.value == '' ? null : option.value;
     let amountWhenChecked = 0;
-    // Append value when checked to the filters object
     if (this._QuickFilterClass._allFilters[filterKey] === null && filterValue !== null) {
       this._QuickFilterClass._allFilters[filterKey] = [filterValue];
     } else if (filterValue === null) {
@@ -68,13 +67,13 @@ export default class QuickFilterCounter {
     }
     this._QuickFilterClass.filterFunction();
     amountWhenChecked = this._QuickFilterClass._showCounter;
-    // Reset to original value
-    this._QuickFilterClass._allFilters = this._oldFilters;
+    this._QuickFilterClass._allFilters = JSON.parse(this._oldFilters);
+    this._QuickFilterClass.filterFunction();
     return amountWhenChecked;
   }
 
   resultsWhenChecked(input: HTMLInputElement): number {
-    this._oldFilters = JSON.parse(JSON.stringify(this._QuickFilterClass._allFilters));
+    this._oldFilters = JSON.stringify(this._QuickFilterClass._allFilters);
     const filterKey = input.dataset?.filter;
     if (filterKey === undefined) return 0;
     const filterValue = input.value == '' ? null : input.value;
@@ -93,7 +92,7 @@ export default class QuickFilterCounter {
     this._QuickFilterClass.filterFunction();
     amountWhenChecked = this._QuickFilterClass._showCounter;
     // Reset to original value
-    this._QuickFilterClass._allFilters = this._oldFilters;
+    this._QuickFilterClass._allFilters = JSON.parse(this._oldFilters);
     return amountWhenChecked;
   }
 
@@ -106,7 +105,7 @@ export default class QuickFilterCounter {
   createCounterElementHTML(results: number): HTMLSpanElement {
     const counterElement: HTMLSpanElement = document.createElement('span');
     counterElement.className = `${this._counterClass} _quick_counter`;
-    counterElement.textContent = `(${results})`;
+    counterElement.textContent = ` (${results})`;
     return counterElement;
   }
 

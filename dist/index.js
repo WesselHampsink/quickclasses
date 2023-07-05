@@ -370,7 +370,7 @@ var QuickFilterCounter = class {
   }
   resultsWhenCheckedSelect(select, option) {
     var _a;
-    this._oldFilters = JSON.parse(JSON.stringify(this._QuickFilterClass._allFilters));
+    this._oldFilters = JSON.stringify(this._QuickFilterClass._allFilters);
     const filterKey = (_a = select.dataset) == null ? void 0 : _a.filter;
     if (filterKey === void 0)
       return 0;
@@ -385,12 +385,13 @@ var QuickFilterCounter = class {
     }
     this._QuickFilterClass.filterFunction();
     amountWhenChecked = this._QuickFilterClass._showCounter;
-    this._QuickFilterClass._allFilters = this._oldFilters;
+    this._QuickFilterClass._allFilters = JSON.parse(this._oldFilters);
+    this._QuickFilterClass.filterFunction();
     return amountWhenChecked;
   }
   resultsWhenChecked(input) {
     var _a, _b;
-    this._oldFilters = JSON.parse(JSON.stringify(this._QuickFilterClass._allFilters));
+    this._oldFilters = JSON.stringify(this._QuickFilterClass._allFilters);
     const filterKey = (_a = input.dataset) == null ? void 0 : _a.filter;
     if (filterKey === void 0)
       return 0;
@@ -405,7 +406,7 @@ var QuickFilterCounter = class {
     }
     this._QuickFilterClass.filterFunction();
     amountWhenChecked = this._QuickFilterClass._showCounter;
-    this._QuickFilterClass._allFilters = this._oldFilters;
+    this._QuickFilterClass._allFilters = JSON.parse(this._oldFilters);
     return amountWhenChecked;
   }
   getLabelByElement(input) {
@@ -417,7 +418,7 @@ var QuickFilterCounter = class {
   createCounterElementHTML(results) {
     const counterElement = document.createElement("span");
     counterElement.className = `${this._counterClass} _quick_counter`;
-    counterElement.textContent = `(${results})`;
+    counterElement.textContent = ` (${results})`;
     return counterElement;
   }
   createCountElementOption(option, results) {
