@@ -1,5 +1,11 @@
 # quickclasses
 
+## 2.3.6
+
+### Patch Changes
+
+- d730231: Pagination selector fix
+
 ## 2.3.5
 
 ### Patch Changes

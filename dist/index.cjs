@@ -511,14 +511,14 @@ var QuickPagination = class {
     }
     if (this._pagesTarget === null) {
       const pagesElement = document.createElement("div");
-      pagesElement.setAttribute("id", `pagination${this._selectorSuffix}`);
+      pagesElement.setAttribute("id", `pages${this._selectorSuffix}`);
       pagesElement.classList.add("pages");
       (_c = parentElement == null ? void 0 : parentElement.parentNode) == null ? void 0 : _c.insertBefore(pagesElement, parentElement);
       this._pagesTarget = pagesElement;
     }
     if (this._paginationElement === null) {
       const paginationElement = document.createElement("nav");
-      paginationElement.setAttribute("id", `${paginationSelector}${this._selectorSuffix}`);
+      paginationElement.setAttribute("id", `pagination${this._selectorSuffix}`);
       paginationElement.classList.add("pagination", paginationSelector);
       this.insertAfter(paginationElement, this._pagesTarget);
       this._paginationElement = paginationElement;
