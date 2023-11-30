@@ -58,11 +58,11 @@ export default class QuickPagination {
       parentElement.style.display = 'none';
     }
     if (this._pagesTarget === null) {
-      const pagesTarget = document.createElement('div');
-      pagesTarget.setAttribute('id', `${pagesTarget}${this._selectorSuffix}`);
-      pagesTarget.classList.add('pages');
-      parentElement?.parentNode?.insertBefore(pagesTarget, parentElement);
-      this._pagesTarget = pagesTarget;
+      const pagesElement = document.createElement('div');
+      pagesElement.setAttribute('id', `pagination${this._selectorSuffix}`);
+      pagesElement.classList.add('pages');
+      parentElement?.parentNode?.insertBefore(pagesElement, parentElement);
+      this._pagesTarget = pagesElement;
     }
     if (this._paginationElement === null) {
       const paginationElement = document.createElement('nav');

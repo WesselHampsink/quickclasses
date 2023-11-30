@@ -481,11 +481,11 @@ var QuickPagination = class {
       parentElement.style.display = "none";
     }
     if (this._pagesTarget === null) {
-      const pagesTarget2 = document.createElement("div");
-      pagesTarget2.setAttribute("id", `${pagesTarget2}${this._selectorSuffix}`);
-      pagesTarget2.classList.add("pages");
-      (_c = parentElement == null ? void 0 : parentElement.parentNode) == null ? void 0 : _c.insertBefore(pagesTarget2, parentElement);
-      this._pagesTarget = pagesTarget2;
+      const pagesElement = document.createElement("div");
+      pagesElement.setAttribute("id", `pagination${this._selectorSuffix}`);
+      pagesElement.classList.add("pages");
+      (_c = parentElement == null ? void 0 : parentElement.parentNode) == null ? void 0 : _c.insertBefore(pagesElement, parentElement);
+      this._pagesTarget = pagesElement;
     }
     if (this._paginationElement === null) {
       const paginationElement = document.createElement("nav");
