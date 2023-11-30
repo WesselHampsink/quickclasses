@@ -1,5 +1,11 @@
 # quickclasses
 
+## 2.3.4
+
+### Patch Changes
+
+- d730231: Add QuickPagination option for selectorSuffix (for multiple paginations on single page)
+
 ## 2.3.3
 
 ### Patch Changes

@@ -479,6 +479,7 @@ var QuickPagination = class {
     itemsPerPage = 5,
     itemsSelector = "[data-index]",
     paginationSelector = "#pagination",
+    selectorSuffix = "",
     pageDisplayProperty = "block",
     nextPrevButtons = false,
     contentPrevButton = "Previous",
@@ -492,8 +493,9 @@ var QuickPagination = class {
     this._chunks = [];
     this._perPage = itemsPerPage;
     this._itemsSelector = itemsSelector;
-    this._pagesTarget = pagesTarget !== null ? document.querySelector(pagesTarget) : null;
-    this._paginationElement = (_a = document.querySelector(paginationSelector)) != null ? _a : null;
+    this._selectorSuffix = selectorSuffix;
+    this._pagesTarget = pagesTarget !== null ? document.querySelector(`${pagesTarget}${this._selectorSuffix}`) : null;
+    this._paginationElement = (_a = document.querySelector(`${paginationSelector}${this._selectorSuffix}`)) != null ? _a : null;
     this._nextPrevButtons = nextPrevButtons;
     this._pageDisplay = pageDisplayProperty;
     this._currentPage = 1;
@@ -509,13 +511,15 @@ var QuickPagination = class {
     }
     if (this._pagesTarget === null) {
       const pagesTarget2 = document.createElement("div");
-      pagesTarget2.setAttribute("id", "pages");
+      pagesTarget2.setAttribute("id", `${pagesTarget2}${this._selectorSuffix}`);
+      pagesTarget2.classList.add("pages");
       (_c = parentElement == null ? void 0 : parentElement.parentNode) == null ? void 0 : _c.insertBefore(pagesTarget2, parentElement);
       this._pagesTarget = pagesTarget2;
     }
     if (this._paginationElement === null) {
       const paginationElement = document.createElement("nav");
-      paginationElement.setAttribute("id", "pagination");
+      paginationElement.setAttribute("id", `${paginationSelector}${this._selectorSuffix}`);
+      paginationElement.classList.add("pagination", paginationSelector);
       this.insertAfter(paginationElement, this._pagesTarget);
       this._paginationElement = paginationElement;
     }

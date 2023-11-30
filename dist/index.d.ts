@@ -79,6 +79,7 @@ declare class QuickPagination {
     _itemsSelector: string;
     _pagesTarget: HTMLElement | null;
     _paginationElement: HTMLElement | null;
+    _selectorSuffix: string;
     _nextPrevButtons: boolean;
     _pageDisplay: CssDisplayProperty;
     _currentPage: number;
@@ -95,7 +96,7 @@ declare class QuickPagination {
      * Paginate class to create quick pagination
      * @param {object} {] object of options
      */
-    constructor({ pagesTarget, itemsPerPage, itemsSelector, paginationSelector, pageDisplayProperty, nextPrevButtons, contentPrevButton, contentNextButton, pageClasses, amountOfPrevNextItems, }: QuickPaginationOptions);
+    constructor({ pagesTarget, itemsPerPage, itemsSelector, paginationSelector, selectorSuffix, pageDisplayProperty, nextPrevButtons, contentPrevButton, contentNextButton, pageClasses, amountOfPrevNextItems, }: QuickPaginationOptions);
     private insertAfter;
     /**
      * init method to fire all methods
@@ -335,6 +336,7 @@ interface QuickPaginationOptions {
   itemsPerPage: number;
   itemsSelector: string;
   paginationSelector: string;
+  selectorSuffix: string;
   pageDisplayProperty: CssDisplayProperty;
   nextPrevButtons: boolean;
   contentPrevButton: string;

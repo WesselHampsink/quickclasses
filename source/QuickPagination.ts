@@ -6,6 +6,7 @@ export default class QuickPagination {
   _itemsSelector: string;
   _pagesTarget: HTMLElement | null;
   _paginationElement: HTMLElement | null;
+  _selectorSuffix: string;
   _nextPrevButtons: boolean;
   _pageDisplay: CssDisplayProperty;
   _currentPage: number;
@@ -28,6 +29,7 @@ export default class QuickPagination {
     itemsPerPage = 5,
     itemsSelector = '[data-index]',
     paginationSelector = '#pagination',
+    selectorSuffix = '',
     pageDisplayProperty = 'block',
     nextPrevButtons = false,
     contentPrevButton = 'Previous',
@@ -38,8 +40,10 @@ export default class QuickPagination {
     this._chunks = [];
     this._perPage = itemsPerPage;
     this._itemsSelector = itemsSelector;
-    this._pagesTarget = pagesTarget !== null ? document.querySelector(pagesTarget) : null;
-    this._paginationElement = document.querySelector(paginationSelector) ?? null;
+    this._selectorSuffix = selectorSuffix;
+    this._pagesTarget =
+      pagesTarget !== null ? document.querySelector(`${pagesTarget}${this._selectorSuffix}`) : null;
+    this._paginationElement = document.querySelector(`${paginationSelector}${this._selectorSuffix}`) ?? null;
     this._nextPrevButtons = nextPrevButtons;
     this._pageDisplay = pageDisplayProperty;
     this._currentPage = 1;
@@ -55,13 +59,15 @@ export default class QuickPagination {
     }
     if (this._pagesTarget === null) {
       const pagesTarget = document.createElement('div');
-      pagesTarget.setAttribute('id', 'pages');
+      pagesTarget.setAttribute('id', `${pagesTarget}${this._selectorSuffix}`);
+      pagesTarget.classList.add('pages');
       parentElement?.parentNode?.insertBefore(pagesTarget, parentElement);
       this._pagesTarget = pagesTarget;
     }
     if (this._paginationElement === null) {
       const paginationElement = document.createElement('nav');
-      paginationElement.setAttribute('id', 'pagination');
+      paginationElement.setAttribute('id', `${paginationSelector}${this._selectorSuffix}`);
+      paginationElement.classList.add('pagination', paginationSelector);
       this.insertAfter(paginationElement, this._pagesTarget);
       this._paginationElement = paginationElement;
     }

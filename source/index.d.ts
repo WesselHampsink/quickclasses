@@ -81,6 +81,7 @@ export interface QuickPaginationOptions {
   itemsPerPage: number;
   itemsSelector: string;
   paginationSelector: string;
+  selectorSuffix: string;
   pageDisplayProperty: CssDisplayProperty;
   nextPrevButtons: boolean;
   contentPrevButton: string;
