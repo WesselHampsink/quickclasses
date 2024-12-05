@@ -79,27 +79,39 @@ class QuickFilter {
       ) ?? null;
     /* Filterable input element which type is checkbox : array */
     if (typeof filterCheckboxInputs !== 'undefined') {
-      this._filterCheckboxInputs = filterCheckboxInputs;
+      this._filterCheckboxInputs = filterCheckboxInputs.map((key) =>
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      );
     }
     /* Filterable select element which type is select : array */
     if (typeof filterSelectInputs !== 'undefined') {
-      this._filterSelectInputs = filterSelectInputs;
+      this._filterSelectInputs = filterSelectInputs.map((key) =>
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      );
     }
     /* Filterable select element which type is text and filters by startsWith : array */
     if (typeof filterStartTextInputs !== 'undefined') {
-      this._filterStartTextInputs = filterStartTextInputs;
+      this._filterStartTextInputs = filterStartTextInputs.map((key) =>
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      );
     }
     /* Filterable inputs which type is text : array */
     if (typeof filterTextInputs !== 'undefined') {
-      this._filterTextInputs = filterTextInputs;
+      this._filterTextInputs = filterTextInputs.map((key) =>
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      );
     }
     /* Filterable inputs which type is range : array */
     if (typeof filterRangeInputs !== 'undefined') {
-      this._filterRangeInputs = filterRangeInputs;
+      this._filterRangeInputs = filterRangeInputs.map((key) =>
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      );
     }
     /* Filterable inputs which type is checkbox : array */
     if (typeof filterRadioInputs !== 'undefined') {
-      this._filterRadioInputs = filterRadioInputs;
+      this._filterRadioInputs = filterRadioInputs.map((key) =>
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()),
+      );
     }
     /* Callback function after filter is done */
     this._callBackFunction = callBackFunction;
@@ -314,7 +326,8 @@ class QuickFilter {
     this._allFilters = {};
     this._allInputs?.forEach((input: HTMLInputElement | HTMLSelectElement | null) => {
       if (input?.dataset?.filter) {
-        this._allFilters[input?.dataset?.filter] = null;
+        this._allFilters[input?.dataset?.filter.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())] =
+          null;
       }
     });
   }
@@ -326,7 +339,9 @@ class QuickFilter {
     this._allInputs?.forEach((input: HTMLInputElement | HTMLSelectElement) => {
       if (input.value == undefined || input.value == null || input.value == '') return;
       if (input instanceof HTMLInputElement && input.type === 'checkbox' && !input.checked) return;
-      let filterKey = input?.dataset?.filter;
+      let filterKey = input?.dataset?.filter
+        ? input?.dataset?.filter.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())
+        : null;
       if (filterKey) {
         if (this._allFilters[filterKey] === null) {
           this._allFilters[filterKey] = [];
