@@ -255,9 +255,11 @@ class QuickFilter {
       /* Set flag for should hide element to false */
       let shouldShow: { [key: string]: boolean } = {};
       for (let key of Object.keys(this._allFilters)) {
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
         shouldShow[key] = true;
       }
       for (let key of Object.keys(this._allFilters)) {
+        key.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
         if (this._allFilters[key] === null) continue;
         if (this._filterCheckboxInputs instanceof Array && this._filterCheckboxInputs.indexOf(key) !== -1) {
           shouldShow[key] = this.checkFilter(key, dataSet[key]);
